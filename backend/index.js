@@ -1,6 +1,13 @@
-import app from "./app"
+import app from "./app.js"
 import { PORT } from "./config.js";
+import pool from "./db.js";
+
+pool.connect().then(()=> {
+    console.log("Database connection established")
+}).catch(()=> {
+    console.log("An error occurred")
+})
 
 app.listen(PORT, ()=>{
-    console.log(`listening on ${PORT}`)
+    console.log(`listening on port ${PORT}`)
 })
