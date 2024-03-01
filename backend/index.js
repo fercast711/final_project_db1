@@ -11,3 +11,7 @@ pool.connect().then(()=> {
 app.listen(PORT, ()=>{
     console.log(`listening on port ${PORT}`)
 })
+
+app.get('/api/hola', (req, res) => {
+    res.json({message:'Hello, world'}).status(200)
+})
