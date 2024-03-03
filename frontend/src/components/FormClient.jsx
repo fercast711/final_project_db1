@@ -2,6 +2,7 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { createClient } from '../api/auth.api'
 
 const FormClient = ({dispatch, setSignUp}) => {
   return (
@@ -31,8 +32,12 @@ const FormClient = ({dispatch, setSignUp}) => {
                             .required("El celular es requerido"),
                         typeClient: Yup.array().of(Yup.string()).min(1)
                     })}
-                    onSubmit={(values, actions) => {
-                        console.log(values);
+                    onSubmit={async (values, actions) => {
+                        try {
+                            await createClient(values)
+                        } catch (error) {
+                            console.error(error)
+                        }
                         actions.setSubmitting(false)
                         dispatch(setSignUp(false))
 
