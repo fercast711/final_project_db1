@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux"
 import Header from "../components/Header"
-import ModalSignUp from "../components/ModalSignUp"
+import Modal from "../components/Modal"
 
 const Home = () => {
-    const {signUp} = useSelector(state => state.auth)
+    const {signUp, logIn} = useSelector(state => state.auth)
   return (
     <>
     <div
@@ -15,7 +15,7 @@ const Home = () => {
         </div>
         
     </div>
-    {signUp && <ModalSignUp />}
+    {(signUp || logIn) && <Modal />}
 
     </>
     

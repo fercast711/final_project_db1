@@ -3,6 +3,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { createClient } from '../api/auth.api'
+import PropTypes from 'prop-types'
 
 const FormClient = ({dispatch, setSignUp}) => {
   return (
@@ -81,7 +82,7 @@ const FormClient = ({dispatch, setSignUp}) => {
                                 placeholder='Ingrese su direccion'
                                 className='px-3 py-2 focus:outline-none rounded bg-gray-600
           text-white w-full mb-2'
-                                row={3}
+                                row={2}
                             />
                             <ErrorMessage component="p" className="text-red-400 text-sm" name="address" />
                             
@@ -126,6 +127,11 @@ const FormClient = ({dispatch, setSignUp}) => {
                     )}
                 </Formik>
   )
+}
+
+FormClient.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    setSignUp: PropTypes.func.isRequired
 }
 
 export default FormClient
