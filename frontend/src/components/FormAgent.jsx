@@ -1,11 +1,11 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
-import { createClient } from '../api/auth.api'
+import { createClient } from '../api/client.api'
 import PropTypes from 'prop-types'
+import { toast } from 'react-toastify';
 
-
-const FormAgent = ({ dispatch, setSignUp }) => {
+const FormAgent = ({ dispatch, setSignUp, configToast }) => {
     return (
         <Formik
             initialValues={
@@ -32,19 +32,20 @@ const FormAgent = ({ dispatch, setSignUp }) => {
                     .max(99999999)
                     .required("El celular es requerido"),
                 officeNumber: Yup.number()
-                .min(10000000)
-                .max(99999999)
-                .required("El telefono de oficina es requerido")
+                    .min(10000000)
+                    .max(99999999)
+                    .required("El telefono de oficina es requerido")
             })}
             onSubmit={async (values, actions) => {
                 try {
-                    await createClient(values)
+                    const res = await createClient(values)
+                    toast.success(res.data.message, configToast);
+                    
                 } catch (error) {
-                    console.error(error)
+                    toast.error(error.response.data.message, configToast);
                 }
                 actions.setSubmitting(false)
                 dispatch(setSignUp(false))
-
             }}
         >
             {({ handleSubmit, isSubmitting }) => (
@@ -130,7 +131,8 @@ text-white w-full mb-2'
 
 FormAgent.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    setSignUp: PropTypes.func.isRequired
+    setSignUp: PropTypes.func.isRequired,
+    configToast: PropTypes.object.isRequired,
 }
 
 export default FormAgent
