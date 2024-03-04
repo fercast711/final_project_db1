@@ -1,9 +1,9 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
-import { createClient } from '../api/client.api'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify';
+import { createAgent } from '../api/agent.api'
 
 const FormAgent = ({ dispatch, setSignUp, configToast }) => {
     return (
@@ -38,7 +38,7 @@ const FormAgent = ({ dispatch, setSignUp, configToast }) => {
             })}
             onSubmit={async (values, actions) => {
                 try {
-                    const res = await createClient(values)
+                    const res = await createAgent(values)
                     toast.success(res.data.message, configToast);
                     
                 } catch (error) {

@@ -3,6 +3,6 @@ import { insertClient } from '../controllers/client.controllers.js'
 
 const router = Router()
 
-router.post('/api/insertClient', insertClient)
+router.post('/insertClient', insertClient)
 
 export default router

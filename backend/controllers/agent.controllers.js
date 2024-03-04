@@ -9,7 +9,6 @@ export const insertAgent = async(req, res) => {
         phoneNumber,
         officeNumber
     } = req.body;
-    console.log(req.body)
     await pool.query(`INSERT INTO agentes (noidentidad, nombre, direccion, celular,telefonooficina) VALUES('${noId}','${name}','${address}',${phoneNumber}, ${officeNumber})`)
     res.status(200).json({message: 'Success to add agent'});
     } catch (error) {

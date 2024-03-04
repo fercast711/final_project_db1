@@ -3,6 +3,6 @@ import { insertAgent } from '../controllers/agent.controllers.js'
 
 const router = Router()
 
-router.post('/api/insertAgent', insertAgent)
+router.post('/insertAgent', insertAgent)
 
 export default router

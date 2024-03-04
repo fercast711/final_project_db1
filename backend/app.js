@@ -8,6 +8,7 @@ const app = express();
 
 app.use(cors())
 app.use(express.json())
-app.use(routerClient)
-app.use(routerAgent)
+app.use('/api/client',routerClient)
+app.use('/api/agent',routerAgent)
+
 export default app;
