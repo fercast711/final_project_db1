@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
-import { createClient } from '../api/auth.api'
+import { createClient } from '../api/client.api'
 import PropTypes from 'prop-types'
 
 const FormLogIn = ({dispatch, setLogIn}) => {

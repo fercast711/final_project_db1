@@ -1,11 +1,15 @@
 import { useSelector } from "react-redux"
 import Header from "../components/Header"
 import Modal from "../components/Modal"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
     const {signUp, logIn} = useSelector(state => state.auth)
+    
   return (
     <>
+
     <div
       className="bg-[url(./assets/Villa-house-mansion-trees-lights-garden-night_3840x2160.jpg)] min-h-screen bg-cover bg-center opacity-95"
     >
@@ -16,7 +20,7 @@ const Home = () => {
         
     </div>
     {(signUp || logIn) && <Modal />}
-
+    <ToastContainer/>
     </>
     
 
