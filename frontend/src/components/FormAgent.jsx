@@ -10,31 +10,31 @@ const FormAgent = ({ dispatch, setSignUp, configToast }) => {
         <Formik
             initialValues={
                 {
-                    noId: '',
+                    identitynumber: '',
                     name: '',
                     address: '',
-                    phoneNumber: '',
-                    officeNumber: '',
+                    phonenumber: '',
+                    officephone: '',
                 }
             }
             enableReinitialize
             validationSchema={Yup.object({
-                noId: Yup.string()
-                    .required('El número de identidad es requerido')
-                    .matches(/^\d+$/, 'El número de identidad debe contener solo dígitos')
-                    .length(13, 'El número de identidad debe tener exactamente 13 caracteres'),
+                identitynumber: Yup.string()
+                    .required('The identity number is required')
+                    .matches(/^\d+$/, 'The identity number must contain only digits')
+                    .length(13, 'The identity number must be exactly 13 characters'),
                 name: Yup.string()
-                    .required("El nombre es requerido"),
+                    .required("The name is required"),
                 address: Yup.string()
-                    .required("La dirección es requerida"),
-                phoneNumber: Yup.number()
+                    .required("The address is required"),
+                phonenumber: Yup.number()
                     .min(10000000)
                     .max(99999999)
-                    .required("El celular es requerido"),
-                officeNumber: Yup.number()
+                    .required("The phone number is required"),
+                officephone: Yup.number()
                     .min(10000000)
                     .max(99999999)
-                    .required("El telefono de oficina es requerido")
+                    .required("The office number is required"),
             })}
             onSubmit={async (values, actions) => {
                 try {
@@ -51,26 +51,26 @@ const FormAgent = ({ dispatch, setSignUp, configToast }) => {
             {({ handleSubmit, isSubmitting }) => (
                 <Form onSubmit={handleSubmit}>
                     <label
-                        htmlFor='noId'
+                        htmlFor='identitynumber'
                         className='text-sm font-bold text-white '>
-                        Numero de Identidad
+                        The identity number
                     </label>
                     <Field
-                        name='noId'
-                        placeholder='Ingrese su numero de Identidad'
+                        name='identitynumber'
+                        placeholder='Enter your identity number'
                         className='px-3 py-2 focus:outline-none rounded bg-gray-600
 text-white w-full mb-2'
                     />
-                    <ErrorMessage component="p" className="text-red-400 text-sm" name="noId" />
+                    <ErrorMessage component="p" className="text-red-400 text-sm" name="identitynumber" />
 
                     <label
                         htmlFor='name'
                         className='text-sm font-bold text-white '>
-                        Nombre Completo
+                        Name
                     </label>
                     <Field
                         name='name'
-                        placeholder='Ingrese su nombre completo'
+                        placeholder='Enter your full name'
                         className='px-3 py-2 focus:outline-none rounded bg-gray-600
 text-white w-full mb-2'
                     />
@@ -78,12 +78,12 @@ text-white w-full mb-2'
                     <label
                         htmlFor='address'
                         className='text-sm font-bold text-white '>
-                        Direccion
+                        Address
                     </label>
                     <Field
                         name='address'
                         component='textarea'
-                        placeholder='Ingrese su direccion'
+                        placeholder='Enter your address'
                         className='px-3 py-2 focus:outline-none rounded bg-gray-600
 text-white w-full mb-2'
                         row={2}
@@ -91,37 +91,37 @@ text-white w-full mb-2'
                     <ErrorMessage component="p" className="text-red-400 text-sm" name="address" />
 
                     <label
-                        htmlFor='phoneNumber'
+                        htmlFor='phonenumber'
                         className='text-sm font-bold text-white '>
-                        Numero de celular
+                        Phone Number
                     </label>
                     <Field
-                        name='phoneNumber'
-                        placeholder='Ingrese su numero de celular'
+                        name='phonenumber'
+                        placeholder='Enter your phone number'
                         className='px-3 py-2 focus:outline-none rounded bg-gray-600
 text-white w-full mb-2'
                     />
-                    <ErrorMessage component="p" className="text-red-400 text-sm" name="phoneNumber" />
+                    <ErrorMessage component="p" className="text-red-400 text-sm" name="phonenumber" />
 
                     <label
-                        htmlFor='officeNumber'
+                        htmlFor='officephone'
                         className='text-sm font-bold text-white '>
-                        Telefono de oficina
+                        Office Number
                     </label>
                     <Field
-                        name='officeNumber'
-                        placeholder='Ingrese su numero de celular'
+                        name='officephone'
+                        placeholder='Enter your office number'
                         className='px-3 py-2 focus:outline-none rounded bg-gray-600
 text-white w-full mb-2'
                     />
-                    <ErrorMessage component="p" className="text-red-400 text-sm" name="officeNumber" />
+                    <ErrorMessage component="p" className="text-red-400 text-sm" name="officephone" />
                     <button
                         type='submit'
                         className='bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded 
             mt-2 text-white focus:outline-none disabled:bg-indigo-400  w-full'
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />) : 'Agregar un nuevo agente'}
+                        {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />) : 'Add new agent'}
                     </button>
                 </Form>
             )}
