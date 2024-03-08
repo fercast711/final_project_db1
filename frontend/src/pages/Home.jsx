@@ -1,11 +1,10 @@
 import { useSelector } from "react-redux"
 import Header from "../components/Header"
 import Modal from "../components/Modal"
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
-    const {signUp, logIn} = useSelector(state => state.auth)
+    const { logIn} = useSelector(state => state.auth)
     
   return (
     <>
@@ -19,8 +18,7 @@ const Home = () => {
         </div>
         
     </div>
-    {(signUp || logIn) && <Modal />}
-    <ToastContainer/>
+    {logIn && <Modal />}
     </>
     
 

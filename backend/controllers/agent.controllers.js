@@ -16,3 +16,13 @@ export const insertAgent = async(req, res) => {
         res.status(500).json({message: `An error ocurred: ${error.message}`});
     }
 }
+
+export const getAgents = async(req, res) => {
+    try {
+    const resQuery = await pool.query(`SELECT * FROM agents`)
+    res.status(200).json({data: resQuery.rows});
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: `An error ocurred: ${error.message}`});
+    }
+}

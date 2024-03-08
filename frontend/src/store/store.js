@@ -5,6 +5,8 @@ import storage from 'redux-persist/lib/storage';
 import persistStore from 'redux-persist/es/persistStore';
 import {persistReducer} from 'redux-persist';
 import renderSlice from "./slice/renderSlice";
+import tdRenderSlice from "./slice/tdRender";
+import formRenderSlice from "./slice/formRender";
 
 const persistConfig = {
     key: 'root',
@@ -16,6 +18,8 @@ const combine = combineReducers({
     auth: authSlice,
     user: userSlice,
     render: renderSlice,
+    tdRender: tdRenderSlice,
+    formRender: formRenderSlice,
   })
 
 const rootReducer = persistReducer(

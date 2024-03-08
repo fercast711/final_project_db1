@@ -4,19 +4,12 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify';
 import { createAgent } from '../api/agent.api'
+import { setFormAgent } from '../store/slice/formRender';
 
-const FormAgent = ({ dispatch, setSignUp, configToast }) => {
+const FormAgent = ({ dispatch, configToast, initialValues }) => {
     return (
         <Formik
-            initialValues={
-                {
-                    identitynumber: '',
-                    name: '',
-                    address: '',
-                    phonenumber: '',
-                    officephone: '',
-                }
-            }
+            initialValues={initialValues}
             enableReinitialize
             validationSchema={Yup.object({
                 identitynumber: Yup.string()
@@ -45,7 +38,7 @@ const FormAgent = ({ dispatch, setSignUp, configToast }) => {
                     toast.error(error.response.data.message, configToast);
                 }
                 actions.setSubmitting(false)
-                dispatch(setSignUp(false))
+                dispatch(setFormAgent(false))
             }}
         >
             {({ handleSubmit, isSubmitting }) => (
@@ -121,7 +114,7 @@ text-white w-full mb-2'
             mt-2 text-white focus:outline-none disabled:bg-indigo-400  w-full'
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />) : 'Add new agent'}
+                        {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />) : initialValues.identitynumber === ''? 'Add new Agent' : 'Update Agent'}
                     </button>
                 </Form>
             )}
@@ -131,8 +124,8 @@ text-white w-full mb-2'
 
 FormAgent.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    setSignUp: PropTypes.func.isRequired,
     configToast: PropTypes.object.isRequired,
+    initialValues: PropTypes.object.isRequired
 }
 
 export default FormAgent

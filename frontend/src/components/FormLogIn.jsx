@@ -1,7 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
-import { createClient } from '../api/client.api'
 import PropTypes from 'prop-types'
 
 const FormLogIn = ({dispatch, setLogIn}) => {
@@ -20,11 +19,6 @@ const FormLogIn = ({dispatch, setLogIn}) => {
                     .length(13, 'The identity number must be exactly 13 characters'),
             })}
             onSubmit={async (values, actions) => {
-                try {
-                    await createClient(values)
-                } catch (error) {
-                    console.error(error)
-                }
                 actions.setSubmitting(false)
                 dispatch(setLogIn(false))
 
