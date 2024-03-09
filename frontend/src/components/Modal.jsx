@@ -2,11 +2,12 @@ import { MdClose } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLogIn } from '../store/slice/authSlice'
 import FormLogIn from './FormLogIn'
-import { setFormAgent, setFormBuyer, setFormPropMarket, setFormSeller, setFormSoldProp } from '../store/slice/formRender'
+import { setFormAgent, setFormBuyer, setFormPropMarket, setFormSellProp, setFormSeller, setFormSoldProp } from '../store/slice/formRender'
 import FormAgent from './FormAgent'
 import FormClient from './FormClient'
 import FormPropMarket from './FormPropMarket'
 import FormSoldProp from './FormSoldProp'
+import FormSellProp from './FormSellProp'
 
 const Modal = () => {
     const { logIn } = useSelector(state => state.auth)
@@ -19,7 +20,9 @@ const Modal = () => {
         formAgentIntialData,
         formClientInitialData,
         formPropMarketData,
-        formSoldPropData
+        formSoldPropData,
+        formSellProp,
+        formSellPropData
       } = useSelector(state => state.formRender)
     
     const dispatch = useDispatch()
@@ -46,6 +49,8 @@ const Modal = () => {
                             dispatch(setFormSeller(false))
                             dispatch(setFormPropMarket(false))
                             dispatch(setFormSoldProp(false))
+                            dispatch(setFormSellProp(false))
+
                         }}
                         className="h-5 w-5 hover:cursor-pointer text-white text-end font-bold" />
                 </div>
@@ -91,6 +96,13 @@ const Modal = () => {
                     dispatch={dispatch}
                     configToast={configToast}
                     initialValues={formSoldPropData}
+                    />
+                }
+                {
+                    formSellProp && <FormSellProp 
+                    dispatch={dispatch}
+                    configToast={configToast}
+                    initialValues={formSellPropData}
                     />
                 }
             </div>
