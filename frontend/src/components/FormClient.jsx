@@ -2,21 +2,14 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
-import { createClient } from '../api/client.api'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify';
+import { setFormBuyer, setFormSeller } from '../store/slice/formRender';
 
-const FormClient = ({ dispatch, setSignUp, configToast }) => {
+const FormClient = ({ dispatch, configToast, initialValues }) => {
     return (
         <Formik
-            initialValues={
-                {
-                    identitynumber: '',
-                    name: '',
-                    address: '',
-                    phonenumber: '',
-                }
-            }
+            initialValues={initialValues}
             enableReinitialize
             validationSchema={Yup.object({
                 identitynumber: Yup.string()
@@ -34,15 +27,14 @@ const FormClient = ({ dispatch, setSignUp, configToast }) => {
             })}
             onSubmit={async (values, actions) => {
                 try {
-                    const res = await createClient(values)
-                    toast.success(res.data.message, configToast);
+                    // toast.success(res.data.message, configToast);
 
                 } catch (error) {
                     toast.error(error.response.data.message, configToast);
                 }
                 actions.setSubmitting(false)
-                dispatch(setSignUp(false))
-
+                dispatch(setFormSeller(false))
+                dispatch(setFormBuyer(false))
             }}
         >
             {({ handleSubmit, isSubmitting }) => (
@@ -102,7 +94,7 @@ text-white w-full mb-2'
 
                     <button
                         type='submit'
-                        className='bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded 
+                        className='bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded
                             mt-2 text-white focus:outline-none disabled:bg-indigo-400  w-full'
                         disabled={isSubmitting}
                     >
@@ -116,8 +108,8 @@ text-white w-full mb-2'
 
 FormClient.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    setSignUp: PropTypes.func.isRequired,
-    configToast: PropTypes.object.isRequired
+    configToast: PropTypes.object.isRequired,
+    initialValues: PropTypes.object.isRequired
 }
 
 export default FormClient

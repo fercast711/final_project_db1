@@ -1,12 +1,12 @@
+
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify';
-import { createAgent } from '../api/agent.api'
-import { setFormAgent } from '../store/slice/formRender';
+import { setFormBuyer, setFormSeller } from '../store/slice/formRender';
 
-const FormAgent = ({ dispatch, configToast, initialValues }) => {
+const FormSellProp = ({ dispatch, configToast, initialValues }) => {
     return (
         <Formik
             initialValues={initialValues}
@@ -24,21 +24,17 @@ const FormAgent = ({ dispatch, configToast, initialValues }) => {
                     .min(10000000)
                     .max(99999999)
                     .required("The phone number is required"),
-                officephone: Yup.number()
-                    .min(10000000)
-                    .max(99999999)
-                    .required("The office number is required"),
             })}
             onSubmit={async (values, actions) => {
                 try {
-                    const res = await createAgent(values)
-                    toast.success(res.data.message, configToast);
-                    
+                    // toast.success(res.data.message, configToast);
+
                 } catch (error) {
                     toast.error(error.response.data.message, configToast);
                 }
                 actions.setSubmitting(false)
-                dispatch(setFormAgent(false))
+                dispatch(setFormSeller(false))
+                dispatch(setFormBuyer(false))
             }}
         >
             {({ handleSubmit, isSubmitting }) => (
@@ -96,25 +92,13 @@ text-white w-full mb-2'
                     />
                     <ErrorMessage component="p" className="text-red-400 text-sm" name="phonenumber" />
 
-                    <label
-                        htmlFor='officephone'
-                        className='text-sm font-bold text-white '>
-                        Office Number
-                    </label>
-                    <Field
-                        name='officephone'
-                        placeholder='Enter your office number'
-                        className='px-3 py-2 focus:outline-none rounded bg-gray-600
-text-white w-full mb-2'
-                    />
-                    <ErrorMessage component="p" className="text-red-400 text-sm" name="officephone" />
                     <button
                         type='submit'
-                        className='bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded 
-            mt-2 text-white focus:outline-none disabled:bg-indigo-400  w-full'
+                        className='bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded
+                            mt-2 text-white focus:outline-none disabled:bg-indigo-400  w-full'
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />) : initialValues.identitynumber === ''? 'Add new Agent' : 'Update Agent'}
+                        {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />) : 'Add new client'}
                     </button>
                 </Form>
             )}
@@ -122,10 +106,11 @@ text-white w-full mb-2'
     )
 }
 
-FormAgent.propTypes = {
+FormSellProp.propTypes = {
     dispatch: PropTypes.func.isRequired,
     configToast: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired
 }
 
-export default FormAgent
+
+export default FormSellProp
