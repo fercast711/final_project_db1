@@ -1,5 +1,4 @@
 import pool from "../db.js";
-//Primera prueba de insercion de momento sin prodecimiento almacenado hasta que el tigre lo enseñe
 export const insertSeller = async(req, res) => {
     try {
         const {
@@ -8,16 +7,15 @@ export const insertSeller = async(req, res) => {
         address,
         phonenumber,
     } = req.body;
-    console.log(req.body)
 
-    await pool.query(`INSERT INTO sellers (identitynumber, name, address, phonenumber) VALUES('${identitynumber}','${name}','${address}',${phonenumber})`)
-
-
-    res.status(200).json({message: 'Success to add client'});
+    await pool.query('CALL insertSeller($1, $2, $3, $4)', [identitynumber, name, address, phonenumber]);
+      res.status(200).json({message: 'Success on adding seller!'});
     } catch (error) {
         console.log(error)
         res.status(500).json({message: `An error ocurred: ${error.message}`});
-    }
+    }finally {
+        await pool.end();
+      }
 }
 
 export const getSellers = async(req, res) => {
@@ -29,3 +27,38 @@ export const getSellers = async(req, res) => {
         res.status(500).json({message: `An error ocurred: ${error.message}`});
     }
 }
+
+export const modifySeller = async (req, res) => {
+    try {
+        const {
+            identitynumber,
+            name,
+            address,
+            phonenumber
+        } = req.body;
+
+      await pool.query('CALL modifySeller($1, $2, $3, $4)', [identitynumber, name, address, phonenumber]);
+      res.status(200).json({message: 'Success on modifying seller!'});
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: `An error ocurred: ${error.message}`});
+    }finally {
+        await pool.end();
+      }
+  };
+
+  export const deleteSeller = async (req, res) => {
+    try {
+        const {
+            identitynumber
+        } = req.body;
+        
+      await pool.query('CALL deleteSeller($1)', [identitynumber]);
+      res.status(200).json({message: 'Success on deliting seller!'});
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: `An error ocurred: ${error.message}`});
+    }finally {
+        await pool.end();
+      }
+  };
