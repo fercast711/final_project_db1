@@ -22,14 +22,16 @@ const AdminPage = () => {
     tdAgent,
     tdSeller,
     tdBuyer,
-    tdProperty_market,
-    tdSold_property
+    tdPropertyMarket,
+    tdSoldProperty
   } = useSelector(state => state.tdRender)
 
   const {
     formSellers,
     formBuyers,
-    formAgents
+    formAgents,
+    formPropMarket,
+    formSoldProp
   } = useSelector(state => state.formRender)
 
   useEffect(() => {
@@ -105,9 +107,9 @@ const AdminPage = () => {
       {agent && <TableAdmin componentTh={agentTh} title="Agents" componentTd={tdAgent} />}
       {seller && <TableAdmin componentTh={clientTh} title="Sellers" componentTd={tdSeller} />}
       {buyer && <TableAdmin componentTh={clientTh} title="Buyers" componentTd={tdBuyer} />}
-      {propertiesMarket && <TableAdmin componentTh={market} title="Properties On The Market" componentTd={tdProperty_market} />}
-      {soldProperties && <TableAdmin componentTh={sold} title="Sold Properties" componentTd={tdSold_property} />}
-      {(formAgents || formBuyers || formSellers) && <Modal/>}
+      {propertiesMarket && <TableAdmin componentTh={market} title="Properties On The Market" componentTd={tdPropertyMarket} />}
+      {soldProperties && <TableAdmin componentTh={sold} title="Sold Properties" componentTd={tdSoldProperty} />}
+      {(formAgents || formBuyers || formSellers || formPropMarket || formSoldProp) && <Modal/>}
     </div>
   )
 }

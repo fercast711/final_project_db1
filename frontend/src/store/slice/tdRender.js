@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAgents } from "../../api/agent.api";
 import { getSellers } from "../../api/seller.api";
 import { getBuyers } from "../../api/buyer.api";
+import { getPropsMarket } from "../../api/propMarket.api";
+import { getSoldProps } from "../../api/soldProp.api";
 
 export const fetchGetAgents = createAsyncThunk(
     'tdRender/fetchGetAgents',
@@ -42,14 +44,40 @@ export const fetchGetBuyers = createAsyncThunk(
     }
 )
 
+export const fetchGetPropsMarket = createAsyncThunk(
+    'tdRender/fetchGetPropsMarket',
+    async()=>{
+        try {
+            const response = await getPropsMarket();
+            return response.data.data
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+)
+
+export const fetchGetSoldProps = createAsyncThunk(
+    'tdRender/fetchGetSoldProps',
+    async()=>{
+        try {
+            const response = await getSoldProps();
+            return response.data.data
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+)
+
 const tdRenderSlice = createSlice({
     name: 'tdRender',
     initialState: {
         tdAgent: [],
         tdSeller: [],
         tdBuyer: [],
-        tdProperty_market: [],
-        tdSold_property: []
+        tdPropertyMarket: [],
+        tdSoldProperty: []
     },
     extraReducers: (builder) => {
         builder
@@ -61,6 +89,12 @@ const tdRenderSlice = createSlice({
         })
         .addCase(fetchGetBuyers.fulfilled,(state, actions)=> {
             state.tdBuyer = [...actions.payload]
+        })
+        .addCase(fetchGetPropsMarket.fulfilled,(state, actions)=> {
+            state.tdPropertyMarket = [...actions.payload]
+        })
+        .addCase(fetchGetSoldProps.fulfilled,(state, actions)=> {
+            state.tdSoldProperty = [...actions.payload]
         })
     }
 })
