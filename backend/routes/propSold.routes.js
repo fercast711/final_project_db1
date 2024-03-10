@@ -1,11 +1,11 @@
 import {Router} from 'express'
-import { getSoldProps } from '../controllers/soldProp.controllers.js'
+import { getSoldProps, insertSP, modifySP, deleteSP } from '../controllers/soldProp.controllers.js'
 
 const router = Router()
 
+router.post('/insertSP', insertSP)
 router.get('/getSoldProps', getSoldProps)
-//put -- actualizar
-//get -- obtener
-//delete -- eleminar
+router.put('/updateSP', modifySP)
+router.delete('/deleteSP', deleteSP)
 
 export default router
