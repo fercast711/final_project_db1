@@ -10,13 +10,13 @@ export const insertBuyer = async(req, res) => {
     } = req.body;
     console.log(req.body)
 
-    await pool.query(`INSERT INTO buyers (identitynumber, name, address, phonenumber) VALUES('${identitynumber}','${name}','${address}',${phonenumber})`)
-
-
-    res.status(200).json({message: 'Success to add client'});
+    await pool.query('CALL insertBuyer($1, $2, $3, $4)', [identitynumber, name, address, phonenumber]);
+      res.status(200).json({message: 'Success on adding buyer!'});
     } catch (error) {
         console.log(error)
         res.status(500).json({message: `An error ocurred: ${error.message}`});
+    }finally {
+        await pool.end();
     }
 }
 
@@ -29,3 +29,38 @@ export const getBuyers = async(req, res) => {
         res.status(500).json({message: `An error ocurred: ${error.message}`});
     }
 }
+
+export const modifyBuyer = async (req, res) => {
+    try {
+        const {
+            identitynumber,
+            name,
+            address,
+            phonenumber
+        } = req.body;
+
+      await pool.query('CALL modifyBuyer($1, $2, $3, $4)', [identitynumber, name, address, phonenumber]);
+      res.status(200).json({message: 'Success on modifying buyer!'});
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: `An error ocurred: ${error.message}`});
+    }finally {
+        await pool.end();
+    }
+  };
+
+  export const deleteBuyer = async (req, res) => {
+    try {
+        const {
+            identitynumber
+        } = req.body;
+        
+      await pool.query('CALL deleteBuyer($1)', [identitynumber]);
+      res.status(200).json({message: 'Success on deleting buyer!'});
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: `An error ocurred: ${error.message}`});
+    }finally {
+        await pool.end();
+    }
+  };
