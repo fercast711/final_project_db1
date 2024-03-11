@@ -6,6 +6,6 @@ const router = Router()
 router.post('/insertAgent', insertAgent)
 router.get('/getAgents', getAgents)
 router.put('/updateAgent', modifyAgent)
-router.delete('/deleteAgent', deleteAgent)
+router.post('/deleteAgent', deleteAgent)
 
 export default router

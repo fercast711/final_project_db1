@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { setAgent, setBuyer, setHome, setPropertiesMarket, setSeller, setSoldProperties } from "../store/slice/renderSlice"
+import { setAgent, setBuyer, setHome, setPropertiesMarket, setReports, setSeller, setSoldProperties } from "../store/slice/renderSlice"
 
 const HeaderPages = () => {
     const navigate = useNavigate()
@@ -63,6 +63,14 @@ Properties on the market</span>
                     >
                         <span className="block hover:cursor-pointer py-2 pr-4 pl-3  border-b  lg:border-0  lg:p-0 text-gray-400 lg:hover:text-white  hover:text-white  border-gray-700">
 Sold properties</span>
+                    </li>
+                    <li 
+                    onClick={() => {
+                        dispatch(setReports())
+                    }}
+                    >
+                        <span className="block hover:cursor-pointer py-2 pr-4 pl-3  border-b  lg:border-0  lg:p-0 text-gray-400 lg:hover:text-white  hover:text-white  border-gray-700">
+Reports </span>
                     </li>
                 </ul>
             </div>

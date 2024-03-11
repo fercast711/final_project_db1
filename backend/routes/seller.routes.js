@@ -6,6 +6,6 @@ const router = Router()
 router.post('/insertSeller', insertSeller)
 router.get('/getSellers', getSellers)
 router.put('/updateSeller', modifySeller)
-router.delete('/deleteSeller', deleteSeller)
+router.post('/deleteSeller', deleteSeller)
 
 export default router
