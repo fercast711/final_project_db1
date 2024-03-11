@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import { deleteAgent } from '../api/agent.api'
 import { toast } from 'react-toastify';
-import { fetchGetAgents, fetchGetBuyers, fetchGetPropsMarket, fetchGetSellers } from '../store/slice/tdRender';
+import { fetchGetAgents, fetchGetBuyers, fetchGetPropsMarket, fetchGetSellers, fetchGetSoldProps } from '../store/slice/tdRender';
 import { setFormDelete } from '../store/slice/formRender';
 import { deleteSeller } from '../api/seller.api';
 import { deleteBuyer } from '../api/buyer.api';
 import { deletePOM } from '../api/propMarket.api';
+import { deleteSP } from '../api/soldProp.api';
 
 const FormDelete = ({ dispatch, values, configToast }) => {
     return (
@@ -32,6 +33,10 @@ const FormDelete = ({ dispatch, values, configToast }) => {
                             case 'Properties On The Market':
                                 res = await deletePOM(values)
                                 dispatch(fetchGetPropsMarket())
+                                break;
+                            case 'Sold Properties':
+                                res = await deleteSP(values)
+                                dispatch(fetchGetSoldProps())
                                 break;
                             default:
                                 break;
