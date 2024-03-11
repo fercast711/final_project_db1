@@ -3,8 +3,9 @@ import * as Yup from 'yup'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify';
-import { createAgent } from '../api/agent.api'
+import { createAgent, updateAgent } from '../api/agent.api'
 import { setFormAgent } from '../store/slice/formRender';
+import { fetchGetAgents } from '../store/slice/tdRender';
 
 const FormAgent = ({ dispatch, configToast, initialValues }) => {
     return (
@@ -31,7 +32,10 @@ const FormAgent = ({ dispatch, configToast, initialValues }) => {
             })}
             onSubmit={async (values, actions) => {
                 try {
-                    const res = await createAgent(values)
+                    let res;
+                    if(initialValues.identitynumber === '') res = await createAgent(values);
+                    else res = await updateAgent(values);
+                    dispatch(fetchGetAgents())
                     toast.success(res.data.message, configToast);
                     
                 } catch (error) {
@@ -42,57 +46,57 @@ const FormAgent = ({ dispatch, configToast, initialValues }) => {
             }}
         >
             {({ handleSubmit, isSubmitting }) => (
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} className=' max-w-md'>
                     <label
                         htmlFor='identitynumber'
-                        className='text-sm font-bold text-white '>
+                        className='text-sm font-bold text-white block'>
                         The identity number
                     </label>
                     <Field
+                    disabled={initialValues.identitynumber !== ''}
                         name='identitynumber'
                         placeholder='Enter your identity number'
-                        className='px-3 py-2 focus:outline-none rounded bg-gray-600
-text-white w-full mb-2'
+                        className='px-3 w-full py-2 focus:outline-none rounded bg-gray-600
+text-white  mb-2'
                     />
-                    <ErrorMessage component="p" className="text-red-400 text-sm" name="identitynumber" />
-
+                    <ErrorMessage component="span" className="text-red-400 text-sm" name="identitynumber" />
                     <label
                         htmlFor='name'
-                        className='text-sm font-bold text-white '>
+                        className='text-sm font-bold text-white block'>
                         Name
                     </label>
                     <Field
                         name='name'
                         placeholder='Enter your full name'
-                        className='px-3 py-2 focus:outline-none rounded bg-gray-600
-text-white w-full mb-2'
+                        className='px-3 w-full py-2 focus:outline-none rounded bg-gray-600
+text-white  mb-2'
                     />
                     <ErrorMessage component="p" className="text-red-400 text-sm" name="name" />
                     <label
                         htmlFor='address'
-                        className='text-sm font-bold text-white '>
+                        className='text-sm font-bold text-white block'>
                         Address
                     </label>
                     <Field
                         name='address'
                         component='textarea'
                         placeholder='Enter your address'
-                        className='px-3 py-2 focus:outline-none rounded bg-gray-600
-text-white w-full mb-2'
+                        className='px-3 w-full py-2 focus:outline-none rounded bg-gray-600
+text-white  mb-2'
                         row={2}
                     />
                     <ErrorMessage component="p" className="text-red-400 text-sm" name="address" />
 
                     <label
                         htmlFor='phonenumber'
-                        className='text-sm font-bold text-white '>
+                        className='text-sm font-bold text-white block'>
                         Phone Number
                     </label>
                     <Field
                         name='phonenumber'
                         placeholder='Enter your phone number'
-                        className='px-3 py-2 focus:outline-none rounded bg-gray-600
-text-white w-full mb-2'
+                        className='px-3 py-2 w-full focus:outline-none rounded bg-gray-600
+text-white  mb-2'
                     />
                     <ErrorMessage component="p" className="text-red-400 text-sm" name="phonenumber" />
 
@@ -104,14 +108,14 @@ text-white w-full mb-2'
                     <Field
                         name='officephone'
                         placeholder='Enter your office number'
-                        className='px-3 py-2 focus:outline-none rounded bg-gray-600
-text-white w-full mb-2'
+                        className='px-3 py-2 w-full focus:outline-none rounded bg-gray-600
+text-white  mb-2'
                     />
                     <ErrorMessage component="p" className="text-red-400 text-sm" name="officephone" />
                     <button
                         type='submit'
                         className='bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded 
-            mt-2 text-white focus:outline-none disabled:bg-indigo-400  w-full'
+            mt-2 text-white focus:outline-none disabled:bg-indigo-400 w-full '
                         disabled={isSubmitting}
                     >
                         {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />) : initialValues.identitynumber === ''? 'Add new Agent' : 'Update Agent'}

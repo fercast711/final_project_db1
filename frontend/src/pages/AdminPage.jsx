@@ -9,7 +9,7 @@ const AdminPage = () => {
   const text = 'Welcome to Databases manager!'
   const [index, setIndex] = useState(0);
   const [reverse, setReverse] = useState(false);
-  const [salesXagent, setSalesXagent] = useState(false);
+  // const [salesXagent, setSalesXagent] = useState(false);
   const {
     home,
     agent,
@@ -34,7 +34,8 @@ const AdminPage = () => {
     formAgents,
     formPropMarket,
     formSoldProp,
-    formSellProp
+    formSellProp,
+    formDelete
   } = useSelector(state => state.formRender)
 
   useEffect(() => {
@@ -140,7 +141,7 @@ const AdminPage = () => {
       {buyer && <TableAdmin componentTh={clientTh} title="Buyers" componentTd={tdBuyer} />}
       {propertiesMarket && <TableAdmin componentTh={market} title="Properties On The Market" componentTd={tdPropertyMarket} />}
       {soldProperties && <TableAdmin componentTh={sold} title="Sold Properties" componentTd={tdSoldProperty} />}
-      {(formAgents || formBuyers || formSellers || formPropMarket || formSoldProp || formSellProp) && <Modal/>}
+      {(formAgents || formBuyers || formSellers || formPropMarket || formSoldProp || formSellProp || formDelete) && <Modal/>}
     </div>
   )
 }

@@ -6,9 +6,7 @@ const router = Router()
 router.post('/insertBuyer', insertBuyer)
 router.get('/getBuyers', getBuyers)
 router.put('/updateBuyer', modifyBuyer)
-router.delete('/deleteBuyer', deleteBuyer)
-//put -- actualizar
-//get -- obtener
-//delete -- eleminar
+router.post('/deleteBuyer', deleteBuyer)
+
 
 export default router
