@@ -2,9 +2,9 @@ import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { setFormAgent, setFormAgentIntialData, setFormBuyer, setFormClientInitialData, setFormDelete, setFormDeleteData, setFormPropMarket, setFormPropMarketData, setFormSellProp, setFormSellPropData, setFormSeller, setFormSoldProp, setFormSoldPropData } from '../../store/slice/formRender'
 import { useEffect } from 'react'
-import { fetchGetAgents, fetchGetBuyers, fetchGetPropsMarket, fetchGetSellers, fetchGetSoldProps } from '../../store/slice/tdRender'
+import { fetchGetAgents, fetchGetBuyers, fetchGetPropsMarket, fetchGetSalesxAgent, fetchGetSellers, fetchGetSoldProps } from '../../store/slice/tdRender'
 
-const TableAdmin = ({ componentTh, title, componentTd }) => {
+const TableAdmin = ({ componentTh, title, componentTd, isReport }) => {
     const dispatch = useDispatch()
     useEffect(() => {
         switch (title) {
@@ -23,6 +23,9 @@ const TableAdmin = ({ componentTh, title, componentTd }) => {
             case 'Sold Properties':
                 dispatch(fetchGetSoldProps())
                 break;
+            case 'Amount of sales per agent':
+                dispatch(fetchGetSalesxAgent())
+                break;
             default:
                 break;
         }
@@ -34,7 +37,7 @@ const TableAdmin = ({ componentTh, title, componentTd }) => {
                     <div className='flex justify-between'>
                         <span>{title}</span>
                         {
-                            title === 'Sold Properties' ? '' : (
+                            (title === 'Sold Properties') || isReport ? '' : (
                                 <button
                                     onClick={() => {
                                         switch (title) {
@@ -105,9 +108,14 @@ const TableAdmin = ({ componentTh, title, componentTd }) => {
                                 </th>
                             ))
                         }
-                        <th scope="col" className="px-6 py-3">
-                            Action
-                        </th>
+                        {
+                            !isReport && (
+                                <th scope="col" className="px-6 py-3">
+                                    Action
+                                </th>
+                            )
+                        }
+
                     </tr>
                 </thead>
                 <tbody>
@@ -121,61 +129,66 @@ const TableAdmin = ({ componentTh, title, componentTd }) => {
                                         </td>
                                     ))
                                 }
-                                <td className="px-6 py-4 text-right flex justify-end">
-                                    <button
-                                        onClick={() => {
-                                            switch (title) {
-                                                case 'Agents':
-                                                    dispatch(setFormAgentIntialData(tr))
-                                                    dispatch(setFormAgent((true)))
-                                                    break;
-                                                case 'Sellers':
-                                                    dispatch(setFormClientInitialData(tr))
-                                                    dispatch(setFormSeller((true)))
-                                                    break;
-                                                case 'Buyers':
-                                                    dispatch(setFormClientInitialData(tr))
-                                                    dispatch(setFormBuyer((true)))
-                                                    break;
-                                                case 'Properties On The Market':
-                                                    dispatch(setFormPropMarketData(tr))
-                                                    dispatch(setFormPropMarket((true)))
-                                                    break;
-                                                case 'Sold Properties' :
-                                                    dispatch(setFormSoldPropData(tr))
-                                                    dispatch(setFormSoldProp((true)))
-                                                    break;
-                                                default:
-                                                    break;
+                                {
+                                    !isReport && (
+                                        <td className="px-6 py-4 text-right flex justify-end">
+                                            <button
+                                                onClick={() => {
+                                                    switch (title) {
+                                                        case 'Agents':
+                                                            dispatch(setFormAgentIntialData(tr))
+                                                            dispatch(setFormAgent((true)))
+                                                            break;
+                                                        case 'Sellers':
+                                                            dispatch(setFormClientInitialData(tr))
+                                                            dispatch(setFormSeller((true)))
+                                                            break;
+                                                        case 'Buyers':
+                                                            dispatch(setFormClientInitialData(tr))
+                                                            dispatch(setFormBuyer((true)))
+                                                            break;
+                                                        case 'Properties On The Market':
+                                                            dispatch(setFormPropMarketData(tr))
+                                                            dispatch(setFormPropMarket((true)))
+                                                            break;
+                                                        case 'Sold Properties':
+                                                            dispatch(setFormSoldPropData(tr))
+                                                            dispatch(setFormSoldProp((true)))
+                                                            break;
+                                                        default:
+                                                            break;
+                                                    }
+
+
+                                                }}
+                                                className='text-white focus:ring-4 bg-green-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-green-700 focus:outline-none focus:ring-green-800'>
+                                                Edit
+                                            </button>
+                                            {
+                                                title === 'Properties On The Market' ? (
+                                                    <button
+                                                        className='text-white focus:ring-4 bg-cyan-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-cyan-700 focus:outline-none focus:ring-cyan-800'
+                                                        onClick={() => {
+                                                            dispatch(setFormSellPropData(tr))
+                                                            dispatch(setFormSellProp(true))
+                                                        }}
+                                                    >
+                                                        Sell
+                                                    </button>) : ''
                                             }
 
+                                            <button
+                                                onClick={() => {
+                                                    dispatch(setFormDelete(true));
+                                                    dispatch(setFormDeleteData({ title, ...tr }))
+                                                }}
+                                                className='text-white focus:ring-4 bg-red-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-red-700 focus:outline-none focus:ring-red-800'>
+                                                Delete
+                                            </button>
+                                        </td>
+                                    )
+                                }
 
-                                        }}
-                                        className='text-white focus:ring-4 bg-green-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-green-700 focus:outline-none focus:ring-green-800'>
-                                        Edit
-                                    </button>
-                                    {
-                                        title === 'Properties On The Market' ? (
-                                        <button 
-                                        className='text-white focus:ring-4 bg-cyan-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-cyan-700 focus:outline-none focus:ring-cyan-800'
-                                        onClick={() => {
-                                            dispatch(setFormSellPropData(tr))
-                                            dispatch(setFormSellProp(true))
-                                        }}
-                                        >
-                                            Sell
-                                        </button>) : ''
-                                    }
-
-                                    <button 
-                                    onClick={() => {
-                                        dispatch(setFormDelete(true));
-                                        dispatch(setFormDeleteData({title, ...tr}))
-                                    }}
-                                    className='text-white focus:ring-4 bg-red-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-red-700 focus:outline-none focus:ring-red-800'>
-                                        Delete
-                                    </button>
-                                </td>
                             </tr>
                         )) : ''
                     }
@@ -188,7 +201,8 @@ const TableAdmin = ({ componentTh, title, componentTd }) => {
 TableAdmin.propTypes = {
     componentTh: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
-    componentTd: PropTypes.array.isRequired
+    componentTd: PropTypes.array.isRequired,
+    isReport: PropTypes.bool
 }
 
 export default TableAdmin

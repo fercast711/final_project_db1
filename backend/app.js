@@ -17,6 +17,6 @@ app.use('/api/seller',routerSeller)
 app.use('/api/buyer',routerBuyer)
 app.use('/api/propMarket', routerPropMarket)
 app.use('/api/soldProp', routerSoldProps)
-app.use('/api/resports', routerReports)
+app.use('/api/report', routerReports)
 
 export default app;
