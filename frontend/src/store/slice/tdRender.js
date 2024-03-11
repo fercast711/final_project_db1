@@ -4,6 +4,7 @@ import { getSellers } from "../../api/seller.api";
 import { getBuyers } from "../../api/buyer.api";
 import { getPropsMarket } from "../../api/propMarket.api";
 import { getSoldProps } from "../../api/soldProp.api";
+import { getSalesxAgent } from "../../api/reports.api";
 
 export const fetchGetAgents = createAsyncThunk(
     'tdRender/fetchGetAgents',
@@ -70,6 +71,19 @@ export const fetchGetSoldProps = createAsyncThunk(
     }
 )
 
+export const fetchGetSalesxAgent = createAsyncThunk(
+    'tdRender/fetchGetSalesxAgent',
+    async()=>{
+        try {
+            const response = await getSalesxAgent();
+            return response.data
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+)
+
 const tdRenderSlice = createSlice({
     name: 'tdRender',
     initialState: {
@@ -77,7 +91,9 @@ const tdRenderSlice = createSlice({
         tdSeller: [],
         tdBuyer: [],
         tdPropertyMarket: [],
-        tdSoldProperty: []
+        tdSoldProperty: [],
+        tdReport: [],
+        thReport: []
     },
     extraReducers: (builder) => {
         builder
@@ -95,6 +111,10 @@ const tdRenderSlice = createSlice({
         })
         .addCase(fetchGetSoldProps.fulfilled,(state, actions)=> {
             state.tdSoldProperty = [...actions.payload]
+        })
+        .addCase(fetchGetSalesxAgent.fulfilled, (state, actions)=> {
+            state.tdReport = [...actions.payload.data]
+            state.thReport = [...actions.payload.fields]
         })
     }
 })

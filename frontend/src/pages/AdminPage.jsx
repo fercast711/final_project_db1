@@ -9,7 +9,9 @@ const AdminPage = () => {
   const text = 'Welcome to Databases manager!'
   const [index, setIndex] = useState(0);
   const [reverse, setReverse] = useState(false);
-  // const [salesXagent, setSalesXagent] = useState(false);
+  const [salesXagent, setSalesxAgent] = useState(false);
+
+
   const {
     home,
     agent,
@@ -19,13 +21,19 @@ const AdminPage = () => {
     soldProperties,
     reports
   } = useSelector(state => state.render)
-  
+  useEffect(() => {
+    if(!reports){
+      setSalesxAgent(false)
+    }
+  }, [reports])
   const {
     tdAgent,
     tdSeller,
     tdBuyer,
     tdPropertyMarket,
-    tdSoldProperty
+    tdSoldProperty,
+    tdReport,
+    thReport,
   } = useSelector(state => state.tdRender)
 
   const {
@@ -104,7 +112,9 @@ const AdminPage = () => {
       <HeaderPages />
       {reports && (
         <div className=" flex justify-between mt-4 mx-6">
-          <button className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
+          <button 
+          onClick={() => setSalesxAgent(true)}
+          className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
             Sales per agent
           </button>
           <button className="text-white focus:ring-4  bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
@@ -142,6 +152,7 @@ const AdminPage = () => {
       {propertiesMarket && <TableAdmin componentTh={market} title="Properties On The Market" componentTd={tdPropertyMarket} />}
       {soldProperties && <TableAdmin componentTh={sold} title="Sold Properties" componentTd={tdSoldProperty} />}
       {(formAgents || formBuyers || formSellers || formPropMarket || formSoldProp || formSellProp || formDelete) && <Modal/>}
+      {salesXagent && <TableAdmin componentTh={thReport} title="Amount of sales per agent" componentTd={tdReport} isReport={true}/>}
     </div>
   )
 }
