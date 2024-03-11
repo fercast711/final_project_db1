@@ -8,6 +8,9 @@ const formRender = createSlice({
         formAgents:false,
         formPropMarket: false,
         formSoldProp: false,
+        formSellProp: false,
+        formDelete: false,
+        formDeleteData: null,
         formAgentIntialData: {
             identitynumber: '',
             name: '',
@@ -45,7 +48,8 @@ const formRender = createSlice({
             selleridentitynumber: '',
             buyeridentitynumber: '',
             salecommission: '',
-        }
+        },
+        formSellPropData: null
     },
     reducers: {
         setFormSeller: (state, actions) => {
@@ -63,6 +67,9 @@ const formRender = createSlice({
         setFormSoldProp: (state, actions) => {
             state.formSoldProp = actions.payload
         },
+        setFormSellProp: (state, actions) => {
+            state.formSellProp = actions.payload
+        },
         setFormAgentIntialData: (state, actions) => {
             state.formAgentIntialData = actions.payload
         },
@@ -74,6 +81,20 @@ const formRender = createSlice({
         },
         setFormSoldPropData: (state, actions) => {
             state.formSoldPropData = actions.payload
+        },
+        setFormSellPropData: (state, actions) => {
+            state.formSellPropData = {
+                ...actions.payload,
+                buyeridentitynumber: '',
+                saleprice: '',
+                salecommission: '',
+            }
+        },
+        setFormDelete: (state, actions) => {
+            state.formDelete = actions.payload
+        },
+        setFormDeleteData: (state, actions) => {
+            state.formDeleteData = actions.payload
         }
     }
 })
@@ -87,6 +108,10 @@ export const {
     setFormClientInitialData,
     setFormPropMarketData,
     setFormSoldProp,
-    setFormSoldPropData
+    setFormSoldPropData,
+    setFormSellPropData,
+    setFormSellProp,
+    setFormDelete,
+    setFormDeleteData
 } = formRender.actions
 export default formRender.reducer

@@ -6,6 +6,6 @@ const router = Router()
 router.post('/insertPOM', insertPOM)
 router.get('/getPropsMarket', getPropsMarket)
 router.put('/updatePOM', modifyPOM)
-router.delete('/deletePOM', deletePOM)
+router.post('/deletePOM', deletePOM)
 
 export default router

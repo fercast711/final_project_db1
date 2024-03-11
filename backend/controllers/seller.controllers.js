@@ -13,9 +13,7 @@ export const insertSeller = async(req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({message: `An error ocurred: ${error.message}`});
-    }finally {
-        await pool.end();
-      }
+    }
 }
 
 export const getSellers = async(req, res) => {
@@ -42,9 +40,7 @@ export const modifySeller = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({message: `An error ocurred: ${error.message}`});
-    }finally {
-        await pool.end();
-      }
+    }
   };
 
   export const deleteSeller = async (req, res) => {
@@ -58,7 +54,5 @@ export const modifySeller = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({message: `An error ocurred: ${error.message}`});
-    }finally {
-        await pool.end();
-      }
+    }
   };

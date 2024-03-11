@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-import { setFormAgent, setFormAgentIntialData, setFormBuyer, setFormClientInitialData, setFormPropMarket, setFormPropMarketData, setFormSeller, setFormSoldProp, setFormSoldPropData } from '../../store/slice/formRender'
+import { setFormAgent, setFormAgentIntialData, setFormBuyer, setFormClientInitialData, setFormDelete, setFormDeleteData, setFormPropMarket, setFormPropMarketData, setFormSellProp, setFormSellPropData, setFormSeller, setFormSoldProp, setFormSoldPropData } from '../../store/slice/formRender'
 import { useEffect } from 'react'
 import { fetchGetAgents, fetchGetBuyers, fetchGetPropsMarket, fetchGetSellers, fetchGetSoldProps } from '../../store/slice/tdRender'
 
@@ -155,12 +155,24 @@ const TableAdmin = ({ componentTh, title, componentTd }) => {
                                         Edit
                                     </button>
                                     {
-                                        title === 'Properties On The Market' ? (<button className='text-white focus:ring-4 bg-cyan-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-cyan-700 focus:outline-none focus:ring-cyan-800'>
+                                        title === 'Properties On The Market' ? (
+                                        <button 
+                                        className='text-white focus:ring-4 bg-cyan-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-cyan-700 focus:outline-none focus:ring-cyan-800'
+                                        onClick={() => {
+                                            dispatch(setFormSellPropData(tr))
+                                            dispatch(setFormSellProp(true))
+                                        }}
+                                        >
                                             Sell
                                         </button>) : ''
                                     }
 
-                                    <button className='text-white focus:ring-4 bg-red-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-red-700 focus:outline-none focus:ring-red-800'>
+                                    <button 
+                                    onClick={() => {
+                                        dispatch(setFormDelete(true));
+                                        dispatch(setFormDeleteData({title, ...tr}))
+                                    }}
+                                    className='text-white focus:ring-4 bg-red-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-red-700 focus:outline-none focus:ring-red-800'>
                                         Delete
                                     </button>
                                 </td>

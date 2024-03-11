@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify';
-import { setFormBuyer, setFormSeller } from '../store/slice/formRender';
+import { setFormSellProp } from '../store/slice/formRender';
 
 const FormSellProp = ({ dispatch, configToast, initialValues }) => {
     return (
@@ -12,18 +12,14 @@ const FormSellProp = ({ dispatch, configToast, initialValues }) => {
             initialValues={initialValues}
             enableReinitialize
             validationSchema={Yup.object({
-                identitynumber: Yup.string()
+                buyeridentitynumber: Yup.string()
                     .required('The identity number is required')
                     .matches(/^\d+$/, 'The identity number must contain only digits')
                     .length(13, 'The identity number must be exactly 13 characters'),
-                name: Yup.string()
-                    .required("The name is required"),
-                address: Yup.string()
-                    .required("The address is required"),
-                phonenumber: Yup.number()
-                    .min(10000000)
-                    .max(99999999)
-                    .required("The phone number is required"),
+                saleprice: Yup.number()
+                    .required("The sale price is required"),
+                salecommission: Yup.number()
+                    .required("The Sale Commissionis required"),
             })}
             onSubmit={async (values, actions) => {
                 try {
@@ -32,65 +28,51 @@ const FormSellProp = ({ dispatch, configToast, initialValues }) => {
                 } catch (error) {
                     toast.error(error.response.data.message, configToast);
                 }
+                console.log(values)
                 actions.setSubmitting(false)
-                dispatch(setFormSeller(false))
-                dispatch(setFormBuyer(false))
+                dispatch(setFormSellProp(false))
             }}
         >
             {({ handleSubmit, isSubmitting }) => (
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} className=' max-w-md'>
                     <label
-                        htmlFor='identitynumber'
+                        htmlFor='buyeridentitynumber'
                         className='text-sm font-bold text-white '>
-                        The identity number
+                        Buyer Identity Number
                     </label>
                     <Field
-                        name='identitynumber'
-                        placeholder='Enter your identity number'
+                        name='buyeridentitynumber'
+                        placeholder='Enter the identity number'
                         className='px-3 py-2 focus:outline-none rounded bg-gray-600
 text-white w-full mb-2'
                     />
-                    <ErrorMessage component="p" className="text-red-400 text-sm" name="identitynumber" />
+                    <ErrorMessage component="p" className="text-red-400 text-sm" name="buyeridentitynumber" />
 
                     <label
-                        htmlFor='name'
+                        htmlFor='saleprice'
                         className='text-sm font-bold text-white '>
-                        Name
+                        Sale Price
                     </label>
                     <Field
-                        name='name'
-                        placeholder='Enter your full name'
+                        name='saleprice'
+                        placeholder='Enter the sale price'
                         className='px-3 py-2 focus:outline-none rounded bg-gray-600
 text-white w-full mb-2'
                     />
-                    <ErrorMessage component="p" className="text-red-400 text-sm" name="name" />
-                    <label
-                        htmlFor='address'
-                        className='text-sm font-bold text-white '>
-                        Address
-                    </label>
-                    <Field
-                        name='address'
-                        component='textarea'
-                        placeholder='Enter your address'
-                        className='px-3 py-2 focus:outline-none rounded bg-gray-600
-text-white w-full mb-2'
-                        row={2}
-                    />
-                    <ErrorMessage component="p" className="text-red-400 text-sm" name="address" />
+                    <ErrorMessage component="p" className="text-red-400 text-sm" name="saleprice" />
 
                     <label
-                        htmlFor='phonenumber'
+                        htmlFor='salecommission'
                         className='text-sm font-bold text-white '>
-                        Phone Number
+                        Sale Commission
                     </label>
                     <Field
-                        name='phonenumber'
+                        name='salecommission'
                         placeholder='Enter your phone number'
                         className='px-3 py-2 focus:outline-none rounded bg-gray-600
 text-white w-full mb-2'
                     />
-                    <ErrorMessage component="p" className="text-red-400 text-sm" name="phonenumber" />
+                    <ErrorMessage component="p" className="text-red-400 text-sm" name="salecommission" />
 
                     <button
                         type='submit'
@@ -98,7 +80,7 @@ text-white w-full mb-2'
                             mt-2 text-white focus:outline-none disabled:bg-indigo-400  w-full'
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />) : 'Add new client'}
+                        {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />) : 'Add as sold'}
                     </button>
                 </Form>
             )}

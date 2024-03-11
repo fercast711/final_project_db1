@@ -38,7 +38,7 @@ const FormClient = ({ dispatch, configToast, initialValues }) => {
             }}
         >
             {({ handleSubmit, isSubmitting }) => (
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} className=' max-w-md'>
                     <label
                         htmlFor='identitynumber'
                         className='text-sm font-bold text-white '>

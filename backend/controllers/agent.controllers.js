@@ -15,9 +15,7 @@ export const insertAgent = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({message: `An error ocurred: ${error.message}`});
-    }finally {
-        await pool.end(); // Cierra la conexión al pool cuando hayas terminado
-      }
+    }
   };
 
 export const getAgents = async(req, res) => {
@@ -45,9 +43,7 @@ export const modifyAgent = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({message: `An error ocurred: ${error.message}`});
-    }finally {
-        await pool.end();
-      }
+    }
   };
 
   export const deleteAgent = async (req, res) => {
@@ -55,13 +51,10 @@ export const modifyAgent = async (req, res) => {
         const {
             identitynumber
         } = req.body;
-        
       await pool.query('CALL deleteAgent($1)', [identitynumber]);
       res.status(200).json({message: 'Success on deliting agent!'});
     } catch (error) {
         console.log(error)
         res.status(500).json({message: `An error ocurred: ${error.message}`});
-    }finally {
-        await pool.end();
-      }
+    }
   };

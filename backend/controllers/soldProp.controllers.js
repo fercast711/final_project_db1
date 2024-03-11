@@ -23,9 +23,7 @@ export const insertSP = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({message: `An error ocurred: ${error.message}`});
-    }finally {
-        await pool.end();
-      }
+    }
   };
 
 export const getSoldProps = async(req, res) => {
@@ -61,9 +59,7 @@ export const modifySP = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({message: `An error ocurred: ${error.message}`});
-    }finally {
-        await pool.end();
-      }
+    }
   };
 
   export const deleteSP = async (req, res) => {
@@ -77,7 +73,5 @@ export const modifySP = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({message: `An error ocurred: ${error.message}`});
-    }finally {
-        await pool.end();
-      }
+    }
   };
