@@ -5,6 +5,8 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify';
 import { setFormPropMarket } from '../store/slice/formRender';
+import { insertPOM, updatePOM } from '../api/propMarket.api';
+import { fetchGetPropsMarket } from '../store/slice/tdRender';
 
 const FormPropMarket = ({ dispatch, configToast, initialValues }) => {
     return (
@@ -39,12 +41,14 @@ const FormPropMarket = ({ dispatch, configToast, initialValues }) => {
             })}
             onSubmit={async (values, actions) => {
                 try {
-                    // toast.success(res.data.message, configToast);
-
+                    let res;
+                    if(initialValues.name === '') res = await insertPOM(values)
+                    else res = await updatePOM(values)
+                    dispatch(fetchGetPropsMarket())
+                    toast.success(res.data.message, configToast);
                 } catch (error) {
                     toast.error(error.response.data.message, configToast);
                 }
-                console.log(values)
                 actions.setSubmitting(false)
                 dispatch(setFormPropMarket(false))
             }}
@@ -142,7 +146,7 @@ const FormPropMarket = ({ dispatch, configToast, initialValues }) => {
                             type='submit'
                             className='bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded mt-2 text-white focus:outline-none disabled:bg-indigo-400 w-full'
                             disabled={isSubmitting}>
-                            {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5 mx-auto" />) : 'Add new client'}
+                            {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5 mx-auto" />) : initialValues.name === ''? 'Add new Property' : 'Update Property'}
                         </button>
                     </div>
                 </Form>
