@@ -5,8 +5,43 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify';
 import { setFormBuyer, setFormSeller } from '../store/slice/formRender';
+import { insertBuyer, updateBuyer } from '../api/buyer.api';
+import { insertSeller, updateSeller } from '../api/seller.api';
+import { fetchGetBuyers, fetchGetSellers } from '../store/slice/tdRender';
 
-const FormClient = ({ dispatch, configToast, initialValues }) => {
+const FormClient = ({ dispatch, configToast, initialValues,typeClient }) => {
+    const createClient = async(values) => {
+        try {
+            let res;
+            if (typeClient){
+                res = await insertSeller(values)
+                dispatch(fetchGetSellers())
+            } else{
+                res = await insertBuyer(values)
+                dispatch(fetchGetBuyers())
+            }
+            toast.success(res.data.message, configToast);
+        } catch (error) {
+            toast.error(error.response.data.message, configToast);
+        }
+    }
+
+    const updateClient = async(values) => {
+        try {
+            let res;
+            if (typeClient){
+                res = await updateSeller(values)
+                dispatch(fetchGetSellers())
+            } else{
+                res = await updateBuyer(values)
+                dispatch(fetchGetBuyers())
+            }
+            toast.success(res.data.message, configToast);
+        } catch (error) {
+            toast.error(error.response.data.message, configToast);
+        }
+
+    }
     return (
         <Formik
             initialValues={initialValues}
@@ -27,8 +62,8 @@ const FormClient = ({ dispatch, configToast, initialValues }) => {
             })}
             onSubmit={async (values, actions) => {
                 try {
-                    // toast.success(res.data.message, configToast);
-
+                    if(initialValues.identitynumber === '') await createClient(values)
+                    else await updateClient(values)
                 } catch (error) {
                     toast.error(error.response.data.message, configToast);
                 }
@@ -45,6 +80,7 @@ const FormClient = ({ dispatch, configToast, initialValues }) => {
                         The identity number
                     </label>
                     <Field
+                    disabled={initialValues.identitynumber !== ''}
                         name='identitynumber'
                         placeholder='Enter your identity number'
                         className='px-3 py-2 focus:outline-none rounded bg-gray-600
@@ -98,7 +134,7 @@ text-white w-full mb-2'
                             mt-2 text-white focus:outline-none disabled:bg-indigo-400  w-full'
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />) : 'Add new client'}
+                        {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />) : initialValues.identitynumber === ''? 'Add new Client' : 'Update Client'}
                     </button>
                 </Form>
             )}
@@ -109,7 +145,8 @@ text-white w-full mb-2'
 FormClient.propTypes = {
     dispatch: PropTypes.func.isRequired,
     configToast: PropTypes.object.isRequired,
-    initialValues: PropTypes.object.isRequired
+    initialValues: PropTypes.object.isRequired,
+    typeClient: PropTypes.bool.isRequired,
 }
 
 export default FormClient

@@ -1,25 +1,33 @@
 import PropTypes from 'prop-types'
 import { deleteAgent } from '../api/agent.api'
 import { toast } from 'react-toastify';
-import { fetchGetAgents } from '../store/slice/tdRender';
+import { fetchGetAgents, fetchGetBuyers, fetchGetSellers } from '../store/slice/tdRender';
 import { setFormDelete } from '../store/slice/formRender';
+import { deleteSeller } from '../api/seller.api';
+import { deleteBuyer } from '../api/buyer.api';
 
 const FormDelete = ({ dispatch, values, configToast }) => {
     return (
         <div className=' max-w-xs'>
             <p className='text-sm font-bold text-white '>Are you sure to delete the {values.title}?</p>
             <button
-                onClick={async() => {
+                onClick={async () => {
                     try {
                         const { title } = values
                         let res;
                         switch (title) {
                             case 'Agents':
-                                console.log(values)
                                 res = await deleteAgent(values)
                                 dispatch(fetchGetAgents())
                                 break;
-
+                            case 'Sellers':
+                                res = await deleteSeller(values)
+                                dispatch(fetchGetSellers())
+                                break;
+                            case 'Buyers':
+                                res = await deleteBuyer(values)
+                                dispatch(fetchGetBuyers())
+                                break;
                             default:
                                 break;
                         }
