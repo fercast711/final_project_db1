@@ -9,15 +9,17 @@ const AdminPage = () => {
   const text = 'Welcome to Databases manager!'
   const [index, setIndex] = useState(0);
   const [reverse, setReverse] = useState(false);
+  const [salesXagent, setSalesXagent] = useState(false);
   const {
     home,
     agent,
     seller,
     buyer,
     propertiesMarket,
-    soldProperties
+    soldProperties,
+    reports
   } = useSelector(state => state.render)
-
+  
   const {
     tdAgent,
     tdSeller,
@@ -99,6 +101,34 @@ const AdminPage = () => {
     >
 
       <HeaderPages />
+      {reports && (
+        <div className=" flex justify-between mt-4 mx-6">
+          <button className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
+            Sales per agent
+          </button>
+          <button className="text-white focus:ring-4  bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
+          Sales per seller
+          </button>
+          <button className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
+          Purchases per buyer
+          </button>
+          <button className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
+          Sales per location
+          </button>
+          <button className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
+          Sales per property price
+          </button>
+          <button className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
+          Sales per features
+          </button>
+          <button className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
+            Hola
+          </button>
+          <button className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
+            Hola
+          </button>
+        </div>
+      )}
       {home && (<div className=" flex justify-center items-center h-[70vh]">
         <h1 className=" text-white font-extrabold font-sans text-7xl text-center max-w-5xl mt-11">
           {text.substring(0, index)}

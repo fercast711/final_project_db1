@@ -9,6 +9,7 @@ const renderSlice = createSlice({
         buyer: false,
         propertiesMarket: false,
         soldProperties: false,
+        reports: false
     },
     reducers:{
         setHome: (state) => {
@@ -47,6 +48,12 @@ const renderSlice = createSlice({
                 else state[key] = false;
               }
         },
+        setReports: (state) => {
+          for ( const key in state){
+            if(key === 'reports') state[key] = true;
+            else state[key] = false;
+          }
+        }
     }
 })
 
@@ -56,7 +63,8 @@ export const {
     setHome, 
     setPropertiesMarket, 
     setSeller, 
-    setSoldProperties
+    setSoldProperties,
+    setReports
 } = renderSlice.actions
 
 export default renderSlice.reducer
