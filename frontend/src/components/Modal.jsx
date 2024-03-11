@@ -78,6 +78,7 @@ const Modal = () => {
                         dispatch={dispatch}
                         configToast={configToast}
                         initialValues={formClientInitialData}
+                        typeClient={true}
                     />
                 }
                 {
@@ -85,6 +86,7 @@ const Modal = () => {
                         dispatch={dispatch}
                         configToast={configToast}
                         initialValues={formClientInitialData}
+                        typeClient={false}
                     />
                 }
                 {

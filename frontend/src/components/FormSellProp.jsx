@@ -5,6 +5,8 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify';
 import { setFormSellProp } from '../store/slice/formRender';
+import { insertSP } from '../api/soldProp.api';
+import { setSoldProperties } from '../store/slice/renderSlice';
 
 const FormSellProp = ({ dispatch, configToast, initialValues }) => {
     return (
@@ -23,8 +25,9 @@ const FormSellProp = ({ dispatch, configToast, initialValues }) => {
             })}
             onSubmit={async (values, actions) => {
                 try {
-                    // toast.success(res.data.message, configToast);
-
+                    const res = await insertSP(values)
+                    toast.success(res.data.message, configToast);
+                    dispatch(setSoldProperties())
                 } catch (error) {
                     toast.error(error.response.data.message, configToast);
                 }

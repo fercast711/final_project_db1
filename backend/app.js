@@ -4,6 +4,7 @@ import {
     routerAgent, 
     routerBuyer, 
     routerPropMarket, 
+    routerReports, 
     routerSeller,
     routerSoldProps,
  } from "./routes/index.routes.js";
@@ -16,5 +17,6 @@ app.use('/api/seller',routerSeller)
 app.use('/api/buyer',routerBuyer)
 app.use('/api/propMarket', routerPropMarket)
 app.use('/api/soldProp', routerSoldProps)
+app.use('/api/resports', routerReports)
 
 export default app;

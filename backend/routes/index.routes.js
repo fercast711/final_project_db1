@@ -3,12 +3,14 @@ import routerSeller from "./seller.routes.js";
 import routerBuyer from "./buyer.routes.js";
 import routerPropMarket from "./propMarket.routes.js";
 import routerSoldProps from "./propSold.routes.js";
+import routerReports from "./reports.routes.js";
 
 export  {
     routerAgent,
     routerBuyer,
     routerSeller,
     routerPropMarket,
-    routerSoldProps
+    routerSoldProps,
+    routerReports
 }
 
