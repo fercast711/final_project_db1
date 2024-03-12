@@ -2,7 +2,7 @@ import pool from "../db.js";
 
 export const getSalesxAgent = async (req, res) => {
     try {
-        const resQuery = await pool.query(`SELECT * FROM sales_x_agent`)
+        const resQuery = await pool.query(`SELECT * FROM vsalesxagent`)
         const fields = []
         resQuery.fields.map(field => fields.push(field.name))
         res.status(200).json({ data: resQuery.rows, fields });
@@ -13,7 +13,7 @@ export const getSalesxAgent = async (req, res) => {
 }
 export const buyerPurchases = async(req, res) => {
     try{
-        const resQuery = await pool.query(`SELECT * FROM buyerpurchases`)
+        const resQuery = await pool.query(`SELECT * FROM vbuyerpurchases`)
         const fields = []
         resQuery.fields.map(field => fields.push(field.name))
         res.status(200).json({data: resQuery.rows, fields});
@@ -24,7 +24,7 @@ export const buyerPurchases = async(req, res) => {
 }
 export const citySales = async(req, res) => {
     try{
-        const resQuery = await pool.query(`SELECT * FROM citysales`)
+        const resQuery = await pool.query(`SELECT * FROM vcitysales`)
         const fields = []
         resQuery.fields.map(field => fields.push(field.name))
         res.status(200).json({data: resQuery.rows, fields});

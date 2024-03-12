@@ -8,7 +8,7 @@ export const insertSeller = async(req, res) => {
         phonenumber,
     } = req.body;
 
-    await pool.query('CALL insertSeller($1, $2, $3, $4)', [identitynumber, name, address, phonenumber]);
+    await pool.query('CALL pinsertSeller($1, $2, $3, $4)', [identitynumber, name, address, phonenumber]);
       res.status(200).json({message: 'Success on adding seller!'});
     } catch (error) {
         console.log(error)
@@ -35,7 +35,7 @@ export const modifySeller = async (req, res) => {
             phonenumber
         } = req.body;
 
-      await pool.query('CALL modifySeller($1, $2, $3, $4)', [identitynumber, name, address, phonenumber]);
+      await pool.query('CALL pmodifySeller($1, $2, $3, $4)', [identitynumber, name, address, phonenumber]);
       res.status(200).json({message: 'Success on modifying seller!'});
     } catch (error) {
         console.log(error)
@@ -49,7 +49,7 @@ export const modifySeller = async (req, res) => {
             identitynumber
         } = req.body;
         
-      await pool.query('CALL deleteSeller($1)', [identitynumber]);
+      await pool.query('CALL pdeleteSeller($1)', [identitynumber]);
       res.status(200).json({message: 'Success on deliting seller!'});
     } catch (error) {
         console.log(error)

@@ -22,6 +22,8 @@ const FormSellProp = ({ dispatch, configToast, initialValues }) => {
                     .required("The sale price is required"),
                 salecommission: Yup.number()
                     .required("The Sale Commissionis required"),
+                saledate: Yup.date()
+                    .required('The sale date is required')
             })}
             onSubmit={async (values, actions) => {
                 try {
@@ -76,7 +78,18 @@ text-white w-full mb-2'
 text-white w-full mb-2'
                     />
                     <ErrorMessage component="p" className="text-red-400 text-sm" name="salecommission" />
-
+                    <label
+                        htmlFor='saledate'
+                        className='text-sm font-bold text-white '>
+                        Sale Date
+                    </label>
+                    <Field
+                        name='saledate'
+                        type='date'
+                        className='px-3 py-2 focus:outline-none rounded bg-gray-600
+text-white w-full mb-2'
+                    />
+                    <ErrorMessage component="p" className="text-red-400 text-sm" name="saledate" />
                     <button
                         type='submit'
                         className='bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded

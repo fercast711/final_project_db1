@@ -10,7 +10,7 @@ export const insertAgent = async (req, res) => {
             officephone
         } = req.body;
 
-      await pool.query('CALL insertAgent($1, $2, $3, $4, $5)', [identitynumber, name, address, phonenumber, officephone]);
+      await pool.query('CALL pinsertAgent($1, $2, $3, $4, $5)', [identitynumber, name, address, phonenumber, officephone]);
       res.status(200).json({message: 'Success on adding agent!'});
     } catch (error) {
         console.log(error)
@@ -38,7 +38,7 @@ export const modifyAgent = async (req, res) => {
             officephone
         } = req.body;
 
-      await pool.query('CALL modifyAgent($1, $2, $3, $4, $5)', [identitynumber, name, address, phonenumber, officephone]);
+      await pool.query('CALL pmodifyAgent($1, $2, $3, $4, $5)', [identitynumber, name, address, phonenumber, officephone]);
       res.status(200).json({message: 'Success on modifying agent!'});
     } catch (error) {
         console.log(error)
@@ -51,7 +51,7 @@ export const modifyAgent = async (req, res) => {
         const {
             identitynumber
         } = req.body;
-      await pool.query('CALL deleteAgent($1)', [identitynumber]);
+      await pool.query('CALL pdeleteAgent($1)', [identitynumber]);
       res.status(200).json({message: 'Success on deliting agent!'});
     } catch (error) {
         console.log(error)
