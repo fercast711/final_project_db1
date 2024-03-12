@@ -33,7 +33,8 @@ const formRender = createSlice({
             features: '',
             price: '',
             agentidentitynumber: '',
-            selleridentitynumber: ''
+            selleridentitynumber: '',
+            publicationdate: ''
         },
         formSoldPropData: {
             name: '',
@@ -88,6 +89,7 @@ const formRender = createSlice({
                 buyeridentitynumber: '',
                 saleprice: '',
                 salecommission: '',
+                saledate: ''
             }
         },
         setFormDelete: (state, actions) => {

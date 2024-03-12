@@ -45,6 +45,10 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
                     .length(13, 'The identity number must be exactly 13 characters'),
                 salecommission: Yup.number()
                     .required("The sale commission is required"),
+                publicationdate: Yup.date()
+                    .required("The publication date is required"),
+                saledate: Yup.date()
+                    .required("The sale date is required")
             })}
             onSubmit={async (values, actions) => {
                 try {
@@ -60,7 +64,7 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
         >
             {({ handleSubmit, isSubmitting }) => (
                 <Form onSubmit={handleSubmit} className="flex flex-wrap min-w-full">
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         {/* Columna 1 */}
 
                         <div className="mb-4">
@@ -97,10 +101,33 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
                                 className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
                             <ErrorMessage component="p" className="text-red-400 text-sm" name="bedroomcount" />
                         </div>
-
+                        <div className="mb-4">
+                            <label htmlFor='agentidentitynumber' className='block text-sm font-bold text-white'>
+                                Agent Identity Number
+                            </label>
+                            <Field name='agentidentitynumber' placeholder='Enter the Agent Identity Number'
+                                className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
+                            <ErrorMessage component="p" className="text-red-400 text-sm" name="agentidentitynumber" />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor='selleridentitynumber' className='block text-sm font-bold text-white'>
+                                Seller Identity Number
+                            </label>
+                            <Field name='selleridentitynumber' placeholder='Enter the Seller Identity Number'
+                                className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
+                            <ErrorMessage component="p" className="text-red-400 text-sm" name="selleridentitynumber" />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor='buyeridentitynumber' className='block text-sm font-bold text-white'>
+                                Buyer Identity Number
+                            </label>
+                            <Field name='buyeridentitynumber' placeholder='Enter the Seller Identity Number'
+                                className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
+                            <ErrorMessage component="p" className="text-red-400 text-sm" name="buyeridentitynumber" />
+                        </div>
                     </div>
 
-                    <div className="w-full md:w-1/3 px-3">
+                    <div className="w-full md:w-1/2 px-3">
                         <div className="mb-4">
                             <label htmlFor='phonenumber' className='block text-sm font-bold text-white'>
                                 Phone Number
@@ -135,9 +162,7 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
                                 className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
                             <ErrorMessage component="p" className="text-red-400 text-sm" name="saleprice" />
                         </div>
-                    </div>
-                    <div className="w-full md:w-1/3 px-3">
-                         <div className="mb-4">
+                        <div className="mb-4">
                             <label htmlFor='salecommission' className='block text-sm font-bold text-white'>
                                 Sale Commission
                             </label>
@@ -146,28 +171,20 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
                             <ErrorMessage component="p" className="text-red-400 text-sm" name="salecommission" />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor='agentidentitynumber' className='block text-sm font-bold text-white'>
-                                Agent Identity Number
+                            <label htmlFor='publicationdate' className='block text-sm font-bold text-white'>
+                                Publication Date
                             </label>
-                            <Field name='agentidentitynumber' placeholder='Enter the Agent Identity Number'
+                            <Field name='publicationdate' type='date'
                                 className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
-                            <ErrorMessage component="p" className="text-red-400 text-sm" name="agentidentitynumber" />
+                            <ErrorMessage component="p" className="text-red-400 text-sm" name="publicationdate" />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor='selleridentitynumber' className='block text-sm font-bold text-white'>
-                                Seller Identity Number
+                            <label htmlFor='saledate' className='block text-sm font-bold text-white'>
+                                Sale Date
                             </label>
-                            <Field name='selleridentitynumber' placeholder='Enter the Seller Identity Number'
+                            <Field name='saledate' type='date'
                                 className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
-                            <ErrorMessage component="p" className="text-red-400 text-sm" name="selleridentitynumber" />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor='buyeridentitynumber' className='block text-sm font-bold text-white'>
-                                Buyer Identity Number
-                            </label>
-                            <Field name='buyeridentitynumber' placeholder='Enter the Seller Identity Number'
-                                className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
-                            <ErrorMessage component="p" className="text-red-400 text-sm" name="buyeridentitynumber" />
+                            <ErrorMessage component="p" className="text-red-400 text-sm" name="saledate" />
                         </div>
                     </div>
                     <div className="w-full px-3">

@@ -80,7 +80,8 @@ const TableAdmin = ({ componentTh, title, componentTd, isReport }) => {
                                                     features: '',
                                                     price: '',
                                                     agentidentitynumber: '',
-                                                    selleridentitynumber: ''
+                                                    selleridentitynumber: '',
+                                                    publicationdate: ''
                                                 }))
                                                 break;
                                             default:
