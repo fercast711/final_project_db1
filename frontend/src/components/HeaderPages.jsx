@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { setAgent, setBuyer, setHome, setPropertiesMarket, setReports, setSeller, setSoldProperties } from "../store/slice/renderSlice"
+import { setAgent, setBinnacle, setBuyer, setHome, setPropertiesMarket, setReports, setSeller, setSoldProperties } from "../store/slice/renderSlice"
+import { updateCurrentUser } from "../store/slice/userSlice"
 
 const HeaderPages = () => {
     const navigate = useNavigate()
@@ -12,6 +13,7 @@ const HeaderPages = () => {
             <div className="flex items-center lg:order-2">
                 <button
                     onClick={() => {
+                        dispatch(updateCurrentUser(null));
                         navigate('/')
                     }}
                 className="text-white focus:ring-4 bg-blue-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-blue-700 focus:outline-none focus:ring-blue-800">
@@ -71,6 +73,14 @@ Sold properties</span>
                     >
                         <span className="block hover:cursor-pointer py-2 pr-4 pl-3  border-b  lg:border-0  lg:p-0 text-gray-400 lg:hover:text-white  hover:text-white  border-gray-700">
 Reports </span>
+                    </li>
+                    <li 
+                    onClick={() => {
+                        dispatch(setBinnacle())
+                    }}
+                    >
+                        <span className="block hover:cursor-pointer py-2 pr-4 pl-3  border-b  lg:border-0  lg:p-0 text-gray-400 lg:hover:text-white  hover:text-white  border-gray-700">
+Binnacle </span>
                     </li>
                 </ul>
             </div>

@@ -6,8 +6,10 @@ import { toast } from 'react-toastify';
 import { setFormSoldProp } from '../store/slice/formRender';
 import { updateSP } from '../api/soldProp.api';
 import { fetchGetSoldProps } from '../store/slice/tdRender';
+import { useSelector } from 'react-redux';
 
 const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
+    const {currentUser} = useSelector(state => state.user)
     return (
         <Formik
             initialValues={initialValues}
@@ -52,7 +54,7 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
             })}
             onSubmit={async (values, actions) => {
                 try {
-                    const res = await updateSP(values)
+                    const res = await updateSP({...values, username: currentUser.username})
                     toast.success(res.data.message, configToast);
                     dispatch(fetchGetSoldProps())
                 } catch (error) {

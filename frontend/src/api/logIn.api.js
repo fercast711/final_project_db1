@@ -1,4 +1,4 @@
 import axios from "axios";
 
 export const getUser = (data) => 
-    axios.get('/api/logIn', data)
+    axios.post('/api/logIn/getDataUser', data)

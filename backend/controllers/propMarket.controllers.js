@@ -12,9 +12,10 @@ export const insertPOM = async (req, res) => {
       price,
       publicationdate,
       agentidentitynumber,
-      selleridentitynumber
+      selleridentitynumber,
+      username
     } = req.body;
-
+    await pool.query(`SET myapp.username = '${username}'`)
     await pool.query('CALL pinsertPOM($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', [name, city, address, phonenumber, bedroomcount, features, price,publicationdate, agentidentitynumber, selleridentitynumber]);
     res.status(200).json({ message: 'Success on adding property!' });
   } catch (error) {
@@ -60,9 +61,10 @@ export const modifyPOM = async (req, res) => {
       price,
       publicationdate,
       agentidentitynumber,
-      selleridentitynumber
+      selleridentitynumber,
+      username
     } = req.body;
-
+    await pool.query(`SET myapp.username = '${username}'`)
     await pool.query('CALL pmodifyPOM($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)', [propertyid, name, city, address, phonenumber, bedroomcount, features, price, publicationdate, agentidentitynumber, selleridentitynumber]);
     res.status(200).json({ message: 'Success on modifying property!' });
   } catch (error) {
@@ -74,9 +76,10 @@ export const modifyPOM = async (req, res) => {
 export const deletePOM = async (req, res) => {
   try {
     const {
-      propertyid
+      propertyid, 
+      username
     } = req.body;
-
+    await pool.query(`SET myapp.username = '${username}'`)
     await pool.query('CALL pdeletePOM($1)', [propertyid]);
     res.status(200).json({ message: 'Success on deleting property!' });
   } catch (error) {

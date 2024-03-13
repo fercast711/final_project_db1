@@ -19,7 +19,8 @@ const AdminPage = () => {
     buyer,
     propertiesMarket,
     soldProperties,
-    reports
+    reports,
+    binnacle
   } = useSelector(state => state.render)
   useEffect(() => {
     if(!reports){
@@ -34,6 +35,7 @@ const AdminPage = () => {
     tdSoldProperty,
     tdReport,
     thReport,
+    tdBinnacle
   } = useSelector(state => state.tdRender)
 
   const {
@@ -153,6 +155,7 @@ const AdminPage = () => {
       {soldProperties && <TableAdmin componentTh={sold} title="Sold Properties" componentTd={tdSoldProperty} />}
       {(formAgents || formBuyers || formSellers || formPropMarket || formSoldProp || formSellProp || formDelete) && <Modal/>}
       {salesXagent && <TableAdmin componentTh={thReport} title="Amount of sales per agent" componentTd={tdReport} isReport={true}/>}
+      {binnacle && <TableAdmin title="Binnacle" isReport={true} componentTd={tdBinnacle} componentTh={['Id','Action','User','Fecha', 'Tiempo']}/>}
     </div>
   )
 }

@@ -2,7 +2,9 @@ import express from "express";
 import cors from "cors";
 import { 
     routerAgent, 
+    routerBinnacle, 
     routerBuyer, 
+    routerLogIn, 
     routerPropMarket, 
     routerReports, 
     routerSeller,
@@ -18,5 +20,7 @@ app.use('/api/buyer',routerBuyer)
 app.use('/api/propMarket', routerPropMarket)
 app.use('/api/soldProp', routerSoldProps)
 app.use('/api/report', routerReports)
+app.use('/api/logIn', routerLogIn)
+app.use('/api/binnacle', routerBinnacle)
 
 export default app;

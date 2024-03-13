@@ -63,6 +63,7 @@ const Modal = () => {
                     <FormLogIn
                         dispatch={dispatch}
                         setLogIn={setLogIn}
+                        configToast={configToast}
                     />
                 )
                 }
