@@ -6,8 +6,11 @@ import { toast } from 'react-toastify';
 import { createAgent, updateAgent } from '../api/agent.api'
 import { setFormAgent } from '../store/slice/formRender';
 import { fetchGetAgents } from '../store/slice/tdRender';
+import { useSelector } from 'react-redux';
 
 const FormAgent = ({ dispatch, configToast, initialValues }) => {
+const {currentUser} = useSelector(state => state.user)
+
     return (
         <Formik
             initialValues={initialValues}
@@ -32,9 +35,10 @@ const FormAgent = ({ dispatch, configToast, initialValues }) => {
             })}
             onSubmit={async (values, actions) => {
                 try {
+                    
                     let res;
-                    if(initialValues.identitynumber === '') res = await createAgent(values);
-                    else res = await updateAgent(values);
+                    if(initialValues.identitynumber === '') res = await createAgent({...values, username: currentUser.username});
+                    else res = await updateAgent({...values, username: currentUser.username});
                     dispatch(fetchGetAgents())
                     toast.success(res.data.message, configToast);
                     

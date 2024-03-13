@@ -7,8 +7,10 @@ import { toast } from 'react-toastify';
 import { setFormPropMarket } from '../store/slice/formRender';
 import { insertPOM, updatePOM } from '../api/propMarket.api';
 import { fetchGetPropsMarket } from '../store/slice/tdRender';
+import { useSelector } from 'react-redux';
 
 const FormPropMarket = ({ dispatch, configToast, initialValues }) => {
+    const {currentUser} = useSelector(state => state.user)
     return (
         <Formik
             initialValues={initialValues}
@@ -44,8 +46,8 @@ const FormPropMarket = ({ dispatch, configToast, initialValues }) => {
             onSubmit={async (values, actions) => {
                 try {
                     let res;
-                    if(initialValues.name === '') res = await insertPOM(values)
-                    else res = await updatePOM(values)
+                    if(initialValues.name === '') res = await insertPOM({...values, username: currentUser.username})
+                    else res = await updatePOM({...values, username: currentUser.username})
                     dispatch(fetchGetPropsMarket())
                     toast.success(res.data.message, configToast);
                 } catch (error) {

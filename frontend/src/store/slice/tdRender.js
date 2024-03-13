@@ -5,6 +5,7 @@ import { getBuyers } from "../../api/buyer.api";
 import { getPropsMarket } from "../../api/propMarket.api";
 import { getSoldProps } from "../../api/soldProp.api";
 import { getSalesxAgent } from "../../api/reports.api";
+import { getBinnacle } from "../../api/binnacle.api";
 
 export const fetchGetAgents = createAsyncThunk(
     'tdRender/fetchGetAgents',
@@ -84,6 +85,20 @@ export const fetchGetSalesxAgent = createAsyncThunk(
     }
 )
 
+export const fetchGetBinnacle = createAsyncThunk(
+    'tdRender/fetchGetBinnacle',
+    async()=>{
+        try {
+            const response = await getBinnacle();
+            return response.data.data;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+)
+
+
 const tdRenderSlice = createSlice({
     name: 'tdRender',
     initialState: {
@@ -93,7 +108,8 @@ const tdRenderSlice = createSlice({
         tdPropertyMarket: [],
         tdSoldProperty: [],
         tdReport: [],
-        thReport: []
+        thReport: [],
+        tdBinnacle: []
     },
     extraReducers: (builder) => {
         builder
@@ -115,6 +131,9 @@ const tdRenderSlice = createSlice({
         .addCase(fetchGetSalesxAgent.fulfilled, (state, actions)=> {
             state.tdReport = [...actions.payload.data]
             state.thReport = [...actions.payload.fields]
+        })
+        .addCase(fetchGetBinnacle.fulfilled, (state, actions)=> {
+            state.tdBinnacle = [...actions.payload]
         })
     }
 })

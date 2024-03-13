@@ -17,9 +17,10 @@ export const insertSP = async (req, res) => {
       agentidentitynumber,
       selleridentitynumber,
       buyeridentitynumber,
-      salecommission
+      salecommission,
+      username
     } = req.body;
-
+    await pool.query(`SET myapp.username = '${username}'`)
     await pool.query('CALL pinsertsp($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)', [propertyid, name, city, address, phonenumber, bedroomcount, features, price, saleprice, publicationdate, saledate, agentidentitynumber, selleridentitynumber, buyeridentitynumber, salecommission]);
     res.status(200).json({ message: 'Success on adding property!' });
   } catch (error) {
@@ -71,9 +72,10 @@ export const modifySP = async (req, res) => {
       agentidentitynumber,
       selleridentitynumber,
       buyeridentitynumber,
-      salecommission
+      salecommission,
+      username
     } = req.body;
-
+    await pool.query(`SET myapp.username = '${username}'`)
     await pool.query('CALL pmodifysp($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)', [propertyid, name, city, address, phonenumber, bedroomcount, features, price, saleprice, publicationdate, saledate, agentidentitynumber, selleridentitynumber, buyeridentitynumber, salecommission]);
     res.status(200).json({ message: 'Success on modifying property!' });
   } catch (error) {
@@ -85,9 +87,10 @@ export const modifySP = async (req, res) => {
 export const deleteSP = async (req, res) => {
   try {
     const {
-      propertyid
+      propertyid,
+      username
     } = req.body;
-
+    await pool.query(`SET myapp.username = '${username}'`)
     await pool.query('CALL pdeletesp($1)', [propertyid]);
     res.status(200).json({ message: 'Success on deleting property!' });
   } catch (error) {

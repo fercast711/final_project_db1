@@ -8,16 +8,18 @@ import { setFormBuyer, setFormSeller } from '../store/slice/formRender';
 import { insertBuyer, updateBuyer } from '../api/buyer.api';
 import { insertSeller, updateSeller } from '../api/seller.api';
 import { fetchGetBuyers, fetchGetSellers } from '../store/slice/tdRender';
+import { useSelector } from 'react-redux';
 
 const FormClient = ({ dispatch, configToast, initialValues,typeClient }) => {
+    const {currentUser} = useSelector(state => state.user)
     const createClient = async(values) => {
         try {
             let res;
             if (typeClient){
-                res = await insertSeller(values)
+                res = await insertSeller({...values, username: currentUser.username})
                 dispatch(fetchGetSellers())
             } else{
-                res = await insertBuyer(values)
+                res = await insertBuyer({...values, username: currentUser.username})
                 dispatch(fetchGetBuyers())
             }
             toast.success(res.data.message, configToast);
@@ -30,10 +32,10 @@ const FormClient = ({ dispatch, configToast, initialValues,typeClient }) => {
         try {
             let res;
             if (typeClient){
-                res = await updateSeller(values)
+                res = await updateSeller({...values, username: currentUser.username})
                 dispatch(fetchGetSellers())
             } else{
-                res = await updateBuyer(values)
+                res = await updateBuyer({...values, username: currentUser.username})
                 dispatch(fetchGetBuyers())
             }
             toast.success(res.data.message, configToast);
