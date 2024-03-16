@@ -2,10 +2,10 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFormAgent, setFormAgentIntialData, setFormBuyer, setFormClientInitialData, setFormDelete, setFormDeleteData, setFormPropMarket, setFormPropMarketData, setFormSellProp, setFormSellPropData, setFormSeller, setFormSoldProp, setFormSoldPropData } from '../../store/slice/formRender'
 import { useEffect } from 'react'
-import { fetchGetAgents, fetchGetBinnacle, fetchGetBuyers, fetchGetPropsMarket, fetchGetSalesxAgent, fetchGetSellers, fetchGetSoldProps } from '../../store/slice/tdRender'
+import { fetchGetAgents, fetchGetBinnacle, fetchGetBuyerPurchases, fetchGetBuyers, fetchGetCitySales, fetchGetFeatureSales, fetchGetProperty_priceSales, fetchGetPropsMarket, fetchGetSalesxAgent, fetchGetSellerSales, fetchGetSellers, fetchGetSoldProps } from '../../store/slice/tdRender'
 
 const TableAdmin = ({ componentTh, title, componentTd, isReport }) => {
-    const {currentUser} = useSelector(state => state.user)
+    const { currentUser } = useSelector(state => state.user)
     const dispatch = useDispatch()
     useEffect(() => {
         switch (title) {
@@ -29,6 +29,21 @@ const TableAdmin = ({ componentTh, title, componentTd, isReport }) => {
                 break;
             case 'Binnacle':
                 dispatch(fetchGetBinnacle())
+                break;
+            case 'Amount of purchases per buyer':
+                dispatch(fetchGetBuyerPurchases())
+                break;
+            case 'Amount of sales per location':
+                dispatch(fetchGetCitySales())
+                break;
+            case 'Amount of sales per seller':
+                dispatch(fetchGetSellerSales())
+                break;
+            case 'Sales per feature':
+                dispatch(fetchGetFeatureSales())
+                break;
+            case 'Sales per price':
+                dispatch(fetchGetProperty_priceSales())
                 break;
             default:
                 break;
@@ -185,7 +200,7 @@ const TableAdmin = ({ componentTh, title, componentTd, isReport }) => {
                                             <button
                                                 onClick={() => {
                                                     dispatch(setFormDelete(true));
-                                                    dispatch(setFormDeleteData({ title, ...tr, username: currentUser.username}))
+                                                    dispatch(setFormDeleteData({ title, ...tr, username: currentUser.username }))
                                                 }}
                                                 className='text-white focus:ring-4 bg-red-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-red-700 focus:outline-none focus:ring-red-800'>
                                                 Delete
@@ -199,6 +214,7 @@ const TableAdmin = ({ componentTh, title, componentTd, isReport }) => {
                     }
                 </tbody>
             </table>
+
         </div>
     )
 }

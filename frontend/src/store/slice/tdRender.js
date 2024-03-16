@@ -4,7 +4,7 @@ import { getSellers } from "../../api/seller.api";
 import { getBuyers } from "../../api/buyer.api";
 import { getPropsMarket } from "../../api/propMarket.api";
 import { getSoldProps } from "../../api/soldProp.api";
-import { getSalesxAgent } from "../../api/reports.api";
+import { getBuyerPurchases, getCitySales, getFeatureSales, getProperty_priceSales, getSalesxAgent, getSellerSales } from "../../api/reports.api";
 import { getBinnacle } from "../../api/binnacle.api";
 
 export const fetchGetAgents = createAsyncThunk(
@@ -85,6 +85,68 @@ export const fetchGetSalesxAgent = createAsyncThunk(
     }
 )
 
+export const fetchGetBuyerPurchases = createAsyncThunk(
+    'tdRender/fetchGetBuyerPurchases',
+    async()=>{
+        try {
+            const response = await getBuyerPurchases();
+            return response.data
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+)
+export const fetchGetCitySales = createAsyncThunk(
+    'tdRender/fetchGetCitySales',
+    async()=>{
+        try {
+            const response = await getCitySales();
+            return response.data
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+)
+export const fetchGetSellerSales = createAsyncThunk(
+    'tdRender/fetchGetSellerSales',
+    async()=>{
+        try {
+            const response = await getSellerSales();
+            return response.data
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+)
+
+export const fetchGetFeatureSales = createAsyncThunk(
+    'tdRender/fetchGetFeatureSales',
+    async()=>{
+        try {
+            const response = await getFeatureSales();
+            return response.data
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+)
+export const fetchGetProperty_priceSales = createAsyncThunk(
+    'tdRender/fetchGetProperty_priceSales',
+    async()=>{
+        try {
+            const response = await getProperty_priceSales();
+            return response.data
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+)
+
 export const fetchGetBinnacle = createAsyncThunk(
     'tdRender/fetchGetBinnacle',
     async()=>{
@@ -134,6 +196,26 @@ const tdRenderSlice = createSlice({
         })
         .addCase(fetchGetBinnacle.fulfilled, (state, actions)=> {
             state.tdBinnacle = [...actions.payload]
+        })
+        .addCase(fetchGetBuyerPurchases.fulfilled, (state, actions)=> {
+            state.tdReport = [...actions.payload.data]
+            state.thReport = [...actions.payload.fields]
+        })
+        .addCase(fetchGetCitySales.fulfilled, (state, actions)=> {
+            state.tdReport = [...actions.payload.data]
+            state.thReport = [...actions.payload.fields]
+        })
+        .addCase(fetchGetFeatureSales.fulfilled, (state, actions)=> {
+            state.tdReport = [...actions.payload.data]
+            state.thReport = [...actions.payload.fields]
+        })
+        .addCase(fetchGetSellerSales.fulfilled, (state, actions)=> {
+            state.tdReport = [...actions.payload.data]
+            state.thReport = [...actions.payload.fields]
+        })
+        .addCase(fetchGetProperty_priceSales.fulfilled, (state, actions)=> {
+            state.tdReport = [...actions.payload.data]
+            state.thReport = [...actions.payload.fields]
         })
     }
 })

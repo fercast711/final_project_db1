@@ -2,7 +2,7 @@ import pool from "../db.js";
 
 export const getSalesxAgent = async (req, res) => {
     try {
-        const resQuery = await pool.query(`SELECT * FROM vsalesxagent`)
+        const resQuery = await pool.query(`SELECT * FROM vSalesAgent`)
         const fields = []
         resQuery.fields.map(field => fields.push(field.name))
         res.status(200).json({ data: resQuery.rows, fields });
@@ -33,9 +33,9 @@ export const citySales = async (req, res) => {
         res.status(500).json({ message: `An error ocurred: ${error.message}` })
     }
 }
-export const sellerSales = async (req, res) => {
-    try {
-        const resQuery = await pool.query(`SELECT * FROM ventas_por_vendedor`)
+export const sellerSales = async(req, res) => {
+    try{
+        const resQuery = await pool.query(`SELECT * FROM vSalesSeller`)
         const fields = []
         resQuery.fields.map(field => fields.push(field.name))
         res.status(200).json({ data: resQuery.rows, fields });
@@ -44,9 +44,9 @@ export const sellerSales = async (req, res) => {
         res.status(500).json({ message: `An error ocurred: ${error.message}` })
     }
 }
-export const property_priceSales = async (req, res) => {
-    try {
-        const resQuery = await pool.query(`SELECT * FROM ventas_por_precio`)
+export const property_priceSales = async(req, res) => {
+    try{
+        const resQuery = await pool.query(`SELECT * FROM vSalesPrice`)
         const fields = []
         resQuery.fields.map(field => fields.push(field.name))
         res.status(200).json({ data: resQuery.rows, fields });
@@ -55,9 +55,9 @@ export const property_priceSales = async (req, res) => {
         res.status(500).json({ message: `An error ocurred: ${error.message}` })
     }
 }
-export const featureSales = async (req, res) => {
-    try {
-        const resQuery = await pool.query(`SELECT * FROM ventas_por_caracteristicas`)
+export const featureSales = async(req, res) => {
+    try{
+        const resQuery = await pool.query(`SELECT * FROM vSalesFeature`)
         const fields = []
         resQuery.fields.map(field => fields.push(field.name))
         res.status(200).json({ data: resQuery.rows, fields });
