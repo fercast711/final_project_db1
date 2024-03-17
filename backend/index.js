@@ -7,7 +7,7 @@ app.listen(PORT, ()=>{
 })
 
 // pool.connect().then(() => {
-//   console.log('connect finished')
+//   console.log('connect successful')
 // }).catch((e) => {
 //   console.log('error connecting', e.message)
 // })

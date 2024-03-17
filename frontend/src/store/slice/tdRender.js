@@ -4,7 +4,7 @@ import { getSellers } from "../../api/seller.api";
 import { getBuyers } from "../../api/buyer.api";
 import { getPropsMarket } from "../../api/propMarket.api";
 import { getSoldProps } from "../../api/soldProp.api";
-import { getBuyerPurchases, getCitySales, getFeatureSales, getProperty_priceSales, getSalesxAgent, getSellerSales } from "../../api/reports.api";
+import { getAgentsPerformance, getBestSellingAgent, getBuyerPurchases, getCitySales, getFeatureSales, getProperty_priceSales, getSalesxAgent, getSellerSales } from "../../api/reports.api";
 import { getBinnacle } from "../../api/binnacle.api";
 
 export const fetchGetAgents = createAsyncThunk(
@@ -160,6 +160,31 @@ export const fetchGetBinnacle = createAsyncThunk(
     }
 )
 
+export const fetchGetBestSellingAgent = createAsyncThunk(
+    'tdRender/fetchGetBestSellingAgent',
+    async(data)=>{
+        try {
+            const response = await getBestSellingAgent(data);
+            return response.data
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+)
+
+export const fetchGetAgentPerformance = createAsyncThunk(
+    'tdRender/fetchGetAgentPerformance',
+    async(data)=>{
+        try {
+            const response = await getAgentsPerformance(data);
+            return response.data
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+)
 
 const tdRenderSlice = createSlice({
     name: 'tdRender',
@@ -172,6 +197,12 @@ const tdRenderSlice = createSlice({
         tdReport: [],
         thReport: [],
         tdBinnacle: []
+    },
+    reducers: {
+        setTdReports: (state, actions) => {
+            state.tdReport =[...actions.payload] 
+            state.thReport =[...actions.payload] 
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -217,7 +248,17 @@ const tdRenderSlice = createSlice({
             state.tdReport = [...actions.payload.data]
             state.thReport = [...actions.payload.fields]
         })
+        .addCase(fetchGetBestSellingAgent.fulfilled, (state, actions)=> {
+            state.tdReport = [...actions.payload.data]
+            state.thReport = [...actions.payload.fields]
+        })
+        .addCase(fetchGetAgentPerformance.fulfilled, (state, actions)=> {
+            state.tdReport = [...actions.payload.data]
+            state.thReport = [...actions.payload.fields]
+        })
     }
 })
 
+
+export const { setTdReports } = tdRenderSlice.actions
 export default tdRenderSlice.reducer

@@ -71,9 +71,8 @@ export const bestsellingagent = async (req, res) => {
     try {
         const {
             useryear
-        } = req.body;
+        } = req.params;
         const resQuery = await pool.query('SELECT * FROM fbestsellingagent($1)', [useryear]);
-        console.log(resQuery)
         const fields = []
         resQuery.fields.map(field => fields.push(field.name))
         res.status(200).json({ data: resQuery.rows, fields });
@@ -87,9 +86,8 @@ export const agentsperformance = async (req, res) => {
     try {
         const {
             useryear
-        } = req.body;
+        } = req.params;
         const resQuery = await pool.query('SELECT * FROM fagentsperformance($1)', [useryear]);
-        console.log(resQuery)
         const fields = []
         resQuery.fields.map(field => fields.push(field.name))
         res.status(200).json({ data: resQuery.rows, fields });

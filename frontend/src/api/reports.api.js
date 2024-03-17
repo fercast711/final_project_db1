@@ -17,3 +17,9 @@ export const getFeatureSales = async() =>
 
 export const getProperty_priceSales = async() => 
     axios.get('/api/report/property_priceSales')
+
+export const getBestSellingAgent= async(data) => 
+    axios.get(`/api/report/bestsellingagent/${data}`)
+
+export const getAgentsPerformance= async(data) => 
+    axios.get(`/api/report/agentsperformance/${data}`)

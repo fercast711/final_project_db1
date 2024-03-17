@@ -11,6 +11,8 @@ const formRender = createSlice({
         formSellProp: false,
         formDelete: false,
         formDeleteData: null,
+        image: false,
+        imageUrl: '',
         formAgentIntialData: {
             identitynumber: '',
             name: '',
@@ -97,6 +99,12 @@ const formRender = createSlice({
         },
         setFormDeleteData: (state, actions) => {
             state.formDeleteData = actions.payload
+        },
+        setImage: (state, actions) => {
+            state.image = actions.payload
+        },
+        setImageUrl: (state, actions) => {
+            state.imageUrl = actions.payload
         }
     }
 })
@@ -114,6 +122,8 @@ export const {
     setFormSellPropData,
     setFormSellProp,
     setFormDelete,
-    setFormDeleteData
+    setFormDeleteData,
+    setImageUrl,
+    setImage
 } = formRender.actions
 export default formRender.reducer

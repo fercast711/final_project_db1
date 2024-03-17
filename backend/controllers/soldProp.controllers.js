@@ -18,10 +18,11 @@ export const insertSP = async (req, res) => {
       selleridentitynumber,
       buyeridentitynumber,
       salecommission,
-      username
+      username,
+      image
     } = req.body;
     await pool.query(`SET myapp.username = '${username}'`)
-    await pool.query('CALL pinsertsp($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)', [propertyid, name, city, address, phonenumber, bedroomcount, features, price, saleprice, publicationdate, saledate, agentidentitynumber, selleridentitynumber, buyeridentitynumber, salecommission]);
+    await pool.query('CALL pinsertsp($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)', [propertyid, name, city, address, phonenumber, bedroomcount, features, price, saleprice, publicationdate, saledate, agentidentitynumber, selleridentitynumber, buyeridentitynumber, salecommission, image]);
     res.status(200).json({ message: 'Success on adding property!' });
   } catch (error) {
     console.log(error)
@@ -46,7 +47,8 @@ export const getSoldProps = async (req, res) => {
     agentidentitynumber,
     selleridentitynumber,
     buyeridentitynumber,
-    salecommission
+    salecommission,
+    image
   FROM sold_properties`)
     res.status(200).json({ data: resQuery.rows });
   } catch (error) {
@@ -73,10 +75,11 @@ export const modifySP = async (req, res) => {
       selleridentitynumber,
       buyeridentitynumber,
       salecommission,
-      username
+      username,
+      image
     } = req.body;
     await pool.query(`SET myapp.username = '${username}'`)
-    await pool.query('CALL pmodifysp($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)', [propertyid, name, city, address, phonenumber, bedroomcount, features, price, saleprice, publicationdate, saledate, agentidentitynumber, selleridentitynumber, buyeridentitynumber, salecommission]);
+    await pool.query('CALL pmodifysp($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)', [propertyid, name, city, address, phonenumber, bedroomcount, features, price, saleprice, publicationdate, saledate, agentidentitynumber, selleridentitynumber, buyeridentitynumber, salecommission,image]);
     res.status(200).json({ message: 'Success on modifying property!' });
   } catch (error) {
     console.log(error)

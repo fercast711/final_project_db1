@@ -8,9 +8,38 @@ import { setFormPropMarket } from '../store/slice/formRender';
 import { insertPOM, updatePOM } from '../api/propMarket.api';
 import { fetchGetPropsMarket } from '../store/slice/tdRender';
 import { useSelector } from 'react-redux';
+import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
+import { app } from '../../firebase';
 
 const FormPropMarket = ({ dispatch, configToast, initialValues }) => {
-    const {currentUser} = useSelector(state => state.user)
+    const { currentUser } = useSelector(state => state.user)
+    const uploadFirebase = (file) => {
+        return new Promise((resolve, reject) => {
+            const storage = getStorage(app);
+            const fileName = new Date().getTime() + file.name;
+            const storageRef = ref(storage, `${fileName}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+    
+            uploadTask.on('state_changed', 
+                () => {
+                },
+                (error) => {
+                    toast.error(error.message, configToast);
+                    reject(error); 
+                },
+                () => {
+                    // Subida completada exitosamente
+                    getDownloadURL(uploadTask.snapshot.ref)
+                        .then((downloadURL) => {
+                            resolve(downloadURL); 
+                        })
+                        .catch((error) => {
+                            reject(error); 
+                        });
+                }
+            );
+        });
+    };
     return (
         <Formik
             initialValues={initialValues}
@@ -41,13 +70,24 @@ const FormPropMarket = ({ dispatch, configToast, initialValues }) => {
                     .matches(/^\d+$/, 'The identity number must contain only digits')
                     .length(13, 'The identity number must be exactly 13 characters'),
                 publicationdate: Yup.date()
-                    .required('The publication date is required')
+                    .required('The publication date is required'),
+                image: initialValues.name === ''? Yup.mixed()
+                    .required('The image is required')
+                    .test('is-image', 'Must be a valid image', (value) => {
+                        if (value) {
+                            return value && ['image/jpeg', 'image/png'].includes(value.type);
+                        }
+                        return true;
+                    }): null,
             })}
             onSubmit={async (values, actions) => {
                 try {
+                    if(initialValues.name === '' || values.image !== initialValues.image) {
+                        values.image = await uploadFirebase(values.image);
+                    }
                     let res;
-                    if(initialValues.name === '') res = await insertPOM({...values, username: currentUser.username})
-                    else res = await updatePOM({...values, username: currentUser.username})
+                    if (initialValues.name === '') res = await insertPOM({ ...values, username: currentUser.username })
+                    else res = await updatePOM({ ...values, username: currentUser.username })
                     dispatch(fetchGetPropsMarket())
                     toast.success(res.data.message, configToast);
                 } catch (error) {
@@ -57,7 +97,7 @@ const FormPropMarket = ({ dispatch, configToast, initialValues }) => {
                 dispatch(setFormPropMarket(false))
             }}
         >
-            {({ handleSubmit, isSubmitting }) => (
+            {({ handleSubmit, isSubmitting, setFieldValue }) => (
                 <Form onSubmit={handleSubmit} className="flex flex-wrap min-w-full">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         {/* Columna 1 */}
@@ -143,7 +183,7 @@ const FormPropMarket = ({ dispatch, configToast, initialValues }) => {
                         </div>
                         <div className="mb-4">
                             <label htmlFor='publicationdate' className='block text-sm font-bold text-white'>
-                            Publication Date
+                                Publication Date
                             </label>
                             <Field type='date' name='publicationdate'
                                 className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
@@ -151,11 +191,25 @@ const FormPropMarket = ({ dispatch, configToast, initialValues }) => {
                         </div>
                     </div>
                     <div className="w-full px-3">
+                        <label htmlFor='image' className='block text-sm font-bold text-white'>
+                            Image
+                        </label>
+                        <input
+                            onChange={(e) => {
+                                setFieldValue('image', e.target.files[0]);
+                            }}
+                            type='file'
+                            name='image'
+                            className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full'
+                        />
+                        <ErrorMessage component="p" className="text-red-400 text-sm" name="image" />
+                    </div>
+                    <div className="w-full px-3">
                         <button
                             type='submit'
                             className='bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded mt-2 text-white focus:outline-none disabled:bg-indigo-400 w-full'
                             disabled={isSubmitting}>
-                            {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5 mx-auto" />) : initialValues.name === ''? 'Add new Property' : 'Update Property'}
+                            {isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5 mx-auto" />) : initialValues.name === '' ? 'Add new Property' : 'Update Property'}
                         </button>
                     </div>
                 </Form>

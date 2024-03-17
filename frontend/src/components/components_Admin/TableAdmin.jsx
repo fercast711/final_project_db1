@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
-import { setFormAgent, setFormAgentIntialData, setFormBuyer, setFormClientInitialData, setFormDelete, setFormDeleteData, setFormPropMarket, setFormPropMarketData, setFormSellProp, setFormSellPropData, setFormSeller, setFormSoldProp, setFormSoldPropData } from '../../store/slice/formRender'
+import { setFormAgent, setFormAgentIntialData, setFormBuyer, setFormClientInitialData, setFormDelete, setFormDeleteData, setFormPropMarket, setFormPropMarketData, setFormSellProp, setFormSellPropData, setFormSeller, setFormSoldProp, setFormSoldPropData, setImage, setImageUrl } from '../../store/slice/formRender'
 import { useEffect } from 'react'
-import { fetchGetAgents, fetchGetBinnacle, fetchGetBuyerPurchases, fetchGetBuyers, fetchGetCitySales, fetchGetFeatureSales, fetchGetProperty_priceSales, fetchGetPropsMarket, fetchGetSalesxAgent, fetchGetSellerSales, fetchGetSellers, fetchGetSoldProps } from '../../store/slice/tdRender'
+import { fetchGetAgentPerformance, fetchGetAgents, fetchGetBestSellingAgent, fetchGetBinnacle, fetchGetBuyerPurchases, fetchGetBuyers, fetchGetCitySales, fetchGetFeatureSales, fetchGetProperty_priceSales, fetchGetPropsMarket, fetchGetSalesxAgent, fetchGetSellerSales, fetchGetSellers, fetchGetSoldProps, setTdReports } from '../../store/slice/tdRender'
 
-const TableAdmin = ({ componentTh, title, componentTd, isReport }) => {
+const TableAdmin = ({ componentTh, title, componentTd, isReport, needYear }) => {
     const { currentUser } = useSelector(state => state.user)
     const dispatch = useDispatch()
     useEffect(() => {
@@ -47,6 +47,9 @@ const TableAdmin = ({ componentTh, title, componentTd, isReport }) => {
                 break;
             default:
                 break;
+        }
+        if(needYear){
+            dispatch(setTdReports([]))
         }
     }, [dispatch])
     return (
@@ -112,7 +115,20 @@ const TableAdmin = ({ componentTh, title, componentTd, isReport }) => {
                                 </button>
                             )
                         }
-
+                        {
+                            (isReport && needYear) && (
+                                <input
+                                    onChange={(e) => {
+                                        if (isNaN(e.target.value)) {
+                                            return;
+                                        }
+                                        if(title === 'Agent who sold more properties in the year') dispatch(fetchGetBestSellingAgent(e.target.value))
+                                        else dispatch(fetchGetAgentPerformance(e.target.value))
+                                    }}
+                                    className='px-3 py-2 focus:outline-none rounded bg-gray-600
+                            text-white mb-2' />
+                            )
+                        }
                     </div>
 
                 </caption>
@@ -145,13 +161,22 @@ const TableAdmin = ({ componentTh, title, componentTd, isReport }) => {
                                 {
                                     Object.keys(tr).map((keyTd) => (
                                         <td key={keyTd} className="px-6 py-4">
-                                            {tr[keyTd]}
+                                            { keyTd === 'image' ? (
+                                                <button 
+                                                onClick={() => {
+                                                    dispatch(setImageUrl(tr[keyTd]))
+                                                    dispatch(setImage(true))
+                                                }}
+                                                className='text-white focus:ring-4  bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800'>
+                                                    View
+                                                </button>
+                                            ): tr[keyTd] }
                                         </td>
                                     ))
                                 }
                                 {
                                     !isReport && (
-                                        <td className="px-6 py-4 text-right flex justify-end">
+                                        <td className="px-6 py-4 text-right flex justify-end items-center">
                                             <button
                                                 onClick={() => {
                                                     switch (title) {
@@ -223,7 +248,8 @@ TableAdmin.propTypes = {
     componentTh: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
     componentTd: PropTypes.array.isRequired,
-    isReport: PropTypes.bool
+    isReport: PropTypes.bool,
+    needYear: PropTypes.bool
 }
 
 export default TableAdmin

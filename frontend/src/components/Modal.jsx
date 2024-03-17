@@ -2,7 +2,7 @@ import { MdClose } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLogIn } from '../store/slice/authSlice'
 import FormLogIn from './FormLogIn'
-import { setFormAgent, setFormBuyer, setFormDelete, setFormPropMarket, setFormSellProp, setFormSeller, setFormSoldProp } from '../store/slice/formRender'
+import { setFormAgent, setFormBuyer, setFormDelete, setFormPropMarket, setFormSellProp, setFormSeller, setFormSoldProp, setImage } from '../store/slice/formRender'
 import FormAgent from './FormAgent'
 import FormClient from './FormClient'
 import FormPropMarket from './FormPropMarket'
@@ -25,7 +25,9 @@ const Modal = () => {
         formSellProp,
         formSellPropData,
         formDelete,
-        formDeleteData
+        formDeleteData,
+        image,
+        imageUrl
     } = useSelector(state => state.formRender)
 
     const dispatch = useDispatch()
@@ -54,6 +56,7 @@ const Modal = () => {
                             dispatch(setFormSoldProp(false))
                             dispatch(setFormSellProp(false))
                             dispatch(setFormDelete(false))
+                            dispatch(setImage(false))
                         }}
                         className="h-5 w-5 hover:cursor-pointer text-white text-end font-bold" />
                 </div>
@@ -117,6 +120,9 @@ const Modal = () => {
                         values={formDeleteData}
                         configToast={configToast}
                     />
+                }
+                {
+                    image && <img src={imageUrl} />
                 }
             </div>
 

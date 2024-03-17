@@ -9,7 +9,7 @@ router.get('/buyerPurchases', buyerPurchases)
 router.get('/sellerSales', sellerSales)
 router.get('/property_priceSales', property_priceSales)
 router.get('/featureSales', featureSales)
-router.get('/bestsellingagent', bestsellingagent)
-router.get('/agentsperformance', agentsperformance)
+router.get('/bestsellingagent/:useryear', bestsellingagent)
+router.get('/agentsperformance/:useryear', agentsperformance)
 
 export default router

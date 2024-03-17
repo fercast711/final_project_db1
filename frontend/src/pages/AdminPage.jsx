@@ -15,6 +15,8 @@ const AdminPage = () => {
   const [sellerSales, setSellerSales] = useState(false);
   const [featureSales, setFeatureSales] = useState(false);
   const [property_priceSales, setProperty_priceSales] = useState(false);
+  const [bestSellingAgent, setBestSellingAgent] = useState(false);
+  const [agentsPerformance, setAgentsPerformance] = useState(false);
   const {
     home,
     agent,
@@ -33,6 +35,8 @@ const AdminPage = () => {
       setSellerSales(false)
       setFeatureSales(false)
       setProperty_priceSales(false)
+      setBestSellingAgent(false)
+      setAgentsPerformance(false)
     }
   }, [reports])
   const {
@@ -53,7 +57,8 @@ const AdminPage = () => {
     formPropMarket,
     formSoldProp,
     formSellProp,
-    formDelete
+    formDelete,
+    image
   } = useSelector(state => state.formRender)
 
   useEffect(() => {
@@ -96,6 +101,7 @@ const AdminPage = () => {
     'Publication Date',
     'Agent Identity Number',
     'Seller Identity Number',
+    'Image'
   ]
   const sold = [
     'Property Id',
@@ -113,6 +119,7 @@ const AdminPage = () => {
     'Seller Identity Number',
     'Buyer Identity Number',
     'Sale Commission',
+    'Image'
   ]
   return (
     <div
@@ -130,6 +137,8 @@ const AdminPage = () => {
               setSellerSales(false)
               setProperty_priceSales(false)
               setFeatureSales(false)
+              setBestSellingAgent(false)
+              setAgentsPerformance(false)
             }}
             className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
             Sales per agent
@@ -142,6 +151,8 @@ const AdminPage = () => {
               setSellerSales(true)
               setProperty_priceSales(false)
               setFeatureSales(false)
+              setBestSellingAgent(false)
+              setAgentsPerformance(false)
             }}
             className="text-white focus:ring-4  bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
             Sales per seller
@@ -154,6 +165,8 @@ const AdminPage = () => {
               setSellerSales(false)
               setProperty_priceSales(false)
               setFeatureSales(false)
+              setBestSellingAgent(false)
+              setAgentsPerformance(false)
             }}
             className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
             Purchases per buyer
@@ -166,6 +179,8 @@ const AdminPage = () => {
               setSellerSales(false)
               setProperty_priceSales(false)
               setFeatureSales(false)
+              setBestSellingAgent(false)
+              setAgentsPerformance(false)
             }}
             className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
             Sales per location
@@ -178,6 +193,8 @@ const AdminPage = () => {
             setSellerSales(false)
             setFeatureSales(false)
             setProperty_priceSales(true)
+            setBestSellingAgent(false)
+            setAgentsPerformance(false)
           }}
           className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
             Sales per property price
@@ -190,15 +207,39 @@ const AdminPage = () => {
               setSellerSales(false)
               setFeatureSales(true)
               setProperty_priceSales(false)
+              setBestSellingAgent(false)
+              setAgentsPerformance(false)
             }}
             className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
             Sales per features
           </button>
-          <button className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
-            Hola
+          <button 
+          onClick={() => {
+            setSalesxAgent(false);
+            setVbuyerPurchases(false);
+            setCitySales(false)
+            setSellerSales(false)
+            setFeatureSales(false)
+            setProperty_priceSales(false)
+            setBestSellingAgent(true)
+            setAgentsPerformance(false)
+          }}
+          className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
+            Best selling agent
           </button>
-          <button className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
-            Hola
+          <button 
+          onClick={() => {
+            setSalesxAgent(false);
+            setVbuyerPurchases(false);
+            setCitySales(false)
+            setSellerSales(false)
+            setFeatureSales(false)
+            setProperty_priceSales(false)
+            setBestSellingAgent(false)
+            setAgentsPerformance(true)
+          }}
+          className="text-white focus:ring-4 bg-teal-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  hover:bg-teal-700 focus:outline-none focus:ring-teal-800">
+            Agents Performance
           </button>
         </div>
       )}
@@ -213,14 +254,16 @@ const AdminPage = () => {
       {buyer && <TableAdmin componentTh={clientTh} title="Buyers" componentTd={tdBuyer} />}
       {propertiesMarket && <TableAdmin componentTh={market} title="Properties On The Market" componentTd={tdPropertyMarket} />}
       {soldProperties && <TableAdmin componentTh={sold} title="Sold Properties" componentTd={tdSoldProperty} />}
-      {(formAgents || formBuyers || formSellers || formPropMarket || formSoldProp || formSellProp || formDelete) && <Modal />}
+      {(formAgents || formBuyers || formSellers || formPropMarket || formSoldProp || formSellProp || formDelete || image) && <Modal />}
       {salesXagent && <TableAdmin componentTh={thReport} title="Amount of sales per agent" componentTd={tdReport} isReport={true} />}
-      {binnacle && <TableAdmin title="Binnacle" isReport={true} componentTd={tdBinnacle} componentTh={['Id', 'Action', 'User', 'Fecha', 'Tiempo']} />}
+      {binnacle && <TableAdmin title="Binnacle" isReport={true} componentTd={tdBinnacle} componentTh={['Id', 'Action', 'User', 'Date', 'Time']} />}
       {vbuyerPurchases && <TableAdmin title="Amount of purchases per buyer" isReport={true} componentTd={tdReport} componentTh={thReport} />}
       {citySales && <TableAdmin title="Amount of sales per location" isReport={true} componentTd={tdReport} componentTh={thReport} />}
       {sellerSales && <TableAdmin title="Amount of sales per seller" isReport={true} componentTd={tdReport} componentTh={thReport} />}
       {featureSales && <TableAdmin title="Sales per feature" isReport={true} componentTd={tdReport} componentTh={thReport} />}
       {property_priceSales && <TableAdmin title="Sales per price" isReport={true} componentTd={tdReport} componentTh={thReport} />}
+      {bestSellingAgent && <TableAdmin title="Agent who sold more properties in the year" isReport={true} componentTd={tdReport} componentTh={thReport} needYear={true}/>}
+      {agentsPerformance && <TableAdmin title="Agents performance in the year" isReport={true} componentTd={tdReport} componentTh={thReport} needYear={true}/>}
     </div>
   )
 }
