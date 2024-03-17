@@ -13,10 +13,11 @@ export const insertPOM = async (req, res) => {
       publicationdate,
       agentidentitynumber,
       selleridentitynumber,
-      username
+      username,
+      image
     } = req.body;
     await pool.query(`SET myapp.username = '${username}'`)
-    await pool.query('CALL pinsertPOM($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', [name, city, address, phonenumber, bedroomcount, features, price,publicationdate, agentidentitynumber, selleridentitynumber]);
+    await pool.query('CALL pinsertPOM($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)', [name, city, address, phonenumber, bedroomcount, features, price,publicationdate, agentidentitynumber, selleridentitynumber, image]);
     res.status(200).json({ message: 'Success on adding property!' });
   } catch (error) {
     console.log(error)
@@ -38,7 +39,8 @@ export const getPropsMarket = async (req, res) => {
     price,
     TO_CHAR(publicationdate, 'YYYY-MM-DD') AS publicationdate,
     agentidentitynumber,
-    selleridentitynumber
+    selleridentitynumber,
+    image
   FROM properties_on_market;
   `)
     res.status(200).json({ data: resQuery.rows });
@@ -62,10 +64,11 @@ export const modifyPOM = async (req, res) => {
       publicationdate,
       agentidentitynumber,
       selleridentitynumber,
-      username
+      username,
+      image
     } = req.body;
     await pool.query(`SET myapp.username = '${username}'`)
-    await pool.query('CALL pmodifyPOM($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)', [propertyid, name, city, address, phonenumber, bedroomcount, features, price, publicationdate, agentidentitynumber, selleridentitynumber]);
+    await pool.query('CALL pmodifyPOM($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)', [propertyid, name, city, address, phonenumber, bedroomcount, features, price, publicationdate, agentidentitynumber, selleridentitynumber, image]);
     res.status(200).json({ message: 'Success on modifying property!' });
   } catch (error) {
     console.log(error)

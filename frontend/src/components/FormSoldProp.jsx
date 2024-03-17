@@ -7,9 +7,38 @@ import { setFormSoldProp } from '../store/slice/formRender';
 import { updateSP } from '../api/soldProp.api';
 import { fetchGetSoldProps } from '../store/slice/tdRender';
 import { useSelector } from 'react-redux';
+import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
+import { app } from '../../firebase';
 
 const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
-    const {currentUser} = useSelector(state => state.user)
+    const { currentUser } = useSelector(state => state.user)
+    const uploadFirebase = (file) => {
+        return new Promise((resolve, reject) => {
+            const storage = getStorage(app);
+            const fileName = new Date().getTime() + file.name;
+            const storageRef = ref(storage, `${fileName}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+    
+            uploadTask.on('state_changed', 
+                () => {
+                },
+                (error) => {
+                    toast.error(error.message, configToast);
+                    reject(error); 
+                },
+                () => {
+                    // Subida completada exitosamente
+                    getDownloadURL(uploadTask.snapshot.ref)
+                        .then((downloadURL) => {
+                            resolve(downloadURL); 
+                        })
+                        .catch((error) => {
+                            reject(error); 
+                        });
+                }
+            );
+        });
+    };
     return (
         <Formik
             initialValues={initialValues}
@@ -50,11 +79,15 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
                 publicationdate: Yup.date()
                     .required("The publication date is required"),
                 saledate: Yup.date()
-                    .required("The sale date is required")
+                    .required("The sale date is required"),
+                image: null
             })}
             onSubmit={async (values, actions) => {
                 try {
-                    const res = await updateSP({...values, username: currentUser.username})
+                    if(values.image !== initialValues.image) {
+                        values.image = await uploadFirebase(values.image);
+                    }
+                    const res = await updateSP({ ...values, username: currentUser.username })
                     toast.success(res.data.message, configToast);
                     dispatch(fetchGetSoldProps())
                 } catch (error) {
@@ -64,9 +97,9 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
                 dispatch(setFormSoldProp(false))
             }}
         >
-            {({ handleSubmit, isSubmitting }) => (
+            {({ handleSubmit, isSubmitting, setFieldValue }) => (
                 <Form onSubmit={handleSubmit} className="flex flex-wrap min-w-full">
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         {/* Columna 1 */}
 
                         <div className="mb-4">
@@ -87,22 +120,7 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
                             <ErrorMessage component="p" className="text-red-400 text-sm" name="address" />
                         </div>
 
-                        <div className="mb-4">
-                            <label htmlFor='city' className='block text-sm font-bold text-white'>
-                                City
-                            </label>
-                            <Field name='city' placeholder='Enter the city'
-                                className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
-                            <ErrorMessage component="p" className="text-red-400 text-sm" name="city" />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor='bedroomcount' className='block text-sm font-bold text-white'>
-                                Bedroom Count
-                            </label>
-                            <Field name='bedroomcount' placeholder='Enter the bedroom count'
-                                className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
-                            <ErrorMessage component="p" className="text-red-400 text-sm" name="bedroomcount" />
-                        </div>
+
                         <div className="mb-4">
                             <label htmlFor='agentidentitynumber' className='block text-sm font-bold text-white'>
                                 Agent Identity Number
@@ -129,7 +147,7 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
                         </div>
                     </div>
 
-                    <div className="w-full md:w-1/2 px-3">
+                    <div className="w-full md:w-1/3 px-3">
                         <div className="mb-4">
                             <label htmlFor='phonenumber' className='block text-sm font-bold text-white'>
                                 Phone Number
@@ -172,6 +190,25 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
                                 className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
                             <ErrorMessage component="p" className="text-red-400 text-sm" name="salecommission" />
                         </div>
+                        
+                    </div>
+                    <div className="w-full md:w-1/3 px-3">
+                    <div className="mb-4">
+                            <label htmlFor='city' className='block text-sm font-bold text-white'>
+                                City
+                            </label>
+                            <Field name='city' placeholder='Enter the city'
+                                className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
+                            <ErrorMessage component="p" className="text-red-400 text-sm" name="city" />
+                        </div>
+                        <div className="mb-11">
+                            <label htmlFor='bedroomcount' className='block text-sm font-bold text-white'>
+                                Bedroom Count
+                            </label>
+                            <Field name='bedroomcount' placeholder='Enter the bedroom count'
+                                className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
+                            <ErrorMessage component="p" className="text-red-400 text-sm" name="bedroomcount" />
+                        </div>
                         <div className="mb-4">
                             <label htmlFor='publicationdate' className='block text-sm font-bold text-white'>
                                 Publication Date
@@ -187,6 +224,20 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
                             <Field name='saledate' type='date'
                                 className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
                             <ErrorMessage component="p" className="text-red-400 text-sm" name="saledate" />
+                        </div>
+                        <div className='mb-4'>
+                        <label htmlFor='image' className='block text-sm font-bold text-white'>
+                            Image
+                        </label>
+                        <input
+                            onChange={(e) => {
+                                setFieldValue('image', e.target.files[0]);
+                            }}
+                            type='file'
+                            name='image'
+                            className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full'
+                        />
+                        <ErrorMessage component="p" className="text-red-400 text-sm" name="image" />
                         </div>
                     </div>
                     <div className="w-full px-3">
