@@ -3,9 +3,9 @@ import { DATABASE, HOST, PASSWORD, PORTDB, USER } from "./config.js";
 const { Pool } = pkg
 
 const pool = new Pool({
-    user: 'fer',
+    user: USER,
     host: HOST,
-    database: 'Prueba2',
+    database: DATABASE,
     password: PASSWORD,
     port: PORTDB,
   })

@@ -7,9 +7,38 @@ import { setFormSoldProp } from '../store/slice/formRender';
 import { updateSP } from '../api/soldProp.api';
 import { fetchGetSoldProps } from '../store/slice/tdRender';
 import { useSelector } from 'react-redux';
+import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
+import { app } from '../../firebase';
 
 const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
     const { currentUser } = useSelector(state => state.user)
+    const uploadFirebase = (file) => {
+        return new Promise((resolve, reject) => {
+            const storage = getStorage(app);
+            const fileName = new Date().getTime() + file.name;
+            const storageRef = ref(storage, `${fileName}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+    
+            uploadTask.on('state_changed', 
+                () => {
+                },
+                (error) => {
+                    toast.error(error.message, configToast);
+                    reject(error); 
+                },
+                () => {
+                    // Subida completada exitosamente
+                    getDownloadURL(uploadTask.snapshot.ref)
+                        .then((downloadURL) => {
+                            resolve(downloadURL); 
+                        })
+                        .catch((error) => {
+                            reject(error); 
+                        });
+                }
+            );
+        });
+    };
     return (
         <Formik
             initialValues={initialValues}
@@ -55,6 +84,9 @@ const FormSoldProp = ({ dispatch, configToast, initialValues }) => {
             })}
             onSubmit={async (values, actions) => {
                 try {
+                    if(values.image !== initialValues.image) {
+                        values.image = await uploadFirebase(values.image);
+                    }
                     const res = await updateSP({ ...values, username: currentUser.username })
                     toast.success(res.data.message, configToast);
                     dispatch(fetchGetSoldProps())
