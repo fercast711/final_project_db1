@@ -29,11 +29,12 @@ const FormLogIn = ({dispatch, setLogIn, configToast}) => {
                 dispatch(setLogIn(false))
                 try {
                     const res = await getUser(values);
+                    dispatch(updateCurrentUser(res.data.data))
                     if(res.data.data.isadmin){
-                        dispatch(updateCurrentUser(res.data.data))
                         navigate('/admin')
                         return
                     }
+                    navigate('/user')
                 } catch (error) {
                     toast.error(error.response.data.message, configToast);
                 }
