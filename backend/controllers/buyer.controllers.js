@@ -21,7 +21,7 @@ export const insertBuyer = async(req, res) => {
 
 export const getBuyers = async(req, res) => {
     try {
-    const resQuery = await pool.query(`SELECT * FROM buyers`)
+    const resQuery = await pool.query(`SELECT * FROM vAllBuyers`)
     res.status(200).json({data: resQuery.rows});
     } catch (error) {
         console.log(error)

@@ -21,7 +21,7 @@ export const insertAgent = async (req, res) => {
 
 export const getAgents = async(req, res) => {
     try {
-    const resQuery = await pool.query(`SELECT * FROM agents`)
+    const resQuery = await pool.query(`SELECT * FROM vAllAgents`)
     res.status(200).json({data: resQuery.rows});
     } catch (error) {
         console.log(error)

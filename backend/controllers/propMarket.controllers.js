@@ -27,22 +27,7 @@ export const insertPOM = async (req, res) => {
 
 export const getPropsMarket = async (req, res) => {
   try {
-    const resQuery = await pool.query(`
-    SELECT
-    propertyid,
-    name,
-    address,
-    city,
-    phonenumber,
-    bedroomcount,
-    features,
-    price,
-    TO_CHAR(publicationdate, 'YYYY-MM-DD') AS publicationdate,
-    agentidentitynumber,
-    selleridentitynumber,
-    image
-  FROM properties_on_market;
-  `)
+    const resQuery = await pool.query(`SELECT * FROM vAllPOM`)
     res.status(200).json({ data: resQuery.rows });
   } catch (error) {
     console.log(error)
@@ -90,3 +75,35 @@ export const deletePOM = async (req, res) => {
     res.status(500).json({ message: `An error ocurred: ${error.message}` });
   }
 };
+
+export const getPropsMarketBuyer = async (req, res) => {
+  try {
+    const resQuery = await pool.query(`SELECT * FROM vAllPOMAgent`)
+    res.status(200).json({ data: resQuery.rows });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `An error ocurred: ${error.message}` });
+  }
+}
+
+export const getPropsMarketSeller = async (req, res) => {
+  try {
+    const {userid} = req.params
+    const resQuery = await pool.query(`SELECT * FROM fPropMarketPerSeller($1)`,[userid])
+    res.status(200).json({ data: resQuery.rows });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `An error ocurred: ${error.message}` });
+  }
+}
+
+export const getPropsMarketAgent = async (req, res) => {
+  try {
+    const {userid} = req.params
+    const resQuery = await pool.query(`SELECT * FROM fPropMarketPerAgent($1)`,[userid])
+    res.status(200).json({ data: resQuery.rows });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `An error ocurred: ${error.message}` });
+  }
+}

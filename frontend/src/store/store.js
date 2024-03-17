@@ -7,6 +7,7 @@ import {persistReducer} from 'redux-persist';
 import renderSlice from "./slice/renderSlice";
 import tdRenderSlice from "./slice/tdRender";
 import formRenderSlice from "./slice/formRender";
+import cardSlice from "./slice/cardSlice";
 
 const persistConfig = {
     key: 'root',
@@ -20,6 +21,7 @@ const combine = combineReducers({
     render: renderSlice,
     tdRender: tdRenderSlice,
     formRender: formRenderSlice,
+    card: cardSlice
   })
 
 const rootReducer = persistReducer(

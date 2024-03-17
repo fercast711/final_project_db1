@@ -32,24 +32,7 @@ export const insertSP = async (req, res) => {
 
 export const getSoldProps = async (req, res) => {
   try {
-    const resQuery = await pool.query(`SELECT
-    propertyid,
-    name,
-    address,
-    city,
-    phonenumber,
-    bedroomcount,
-    features,
-    price,
-    saleprice,
-    TO_CHAR(publicationdate, 'YYYY-MM-DD') AS publicationdate,
-    TO_CHAR(saledate, 'YYYY-MM-DD') AS saledate,
-    agentidentitynumber,
-    selleridentitynumber,
-    buyeridentitynumber,
-    salecommission,
-    image
-  FROM sold_properties`)
+    const resQuery = await pool.query(`SELECT * FROM vAllSP`)
     res.status(200).json({ data: resQuery.rows });
   } catch (error) {
     console.log(error)
@@ -101,3 +84,25 @@ export const deleteSP = async (req, res) => {
     res.status(500).json({ message: `An error ocurred: ${error.message}` });
   }
 };
+
+export const getSoldPropsSeller = async (req, res) => {
+  try {
+    const {userid} = req.params
+    const resQuery = await pool.query(`SELECT * FROM fpropsellsperseller($1)`,[userid])
+    res.status(200).json({ data: resQuery.rows });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `An error ocurred: ${error.message}` });
+  }
+}
+
+export const getSoldPropsAgent = async (req, res) => {
+  try {
+    const {userid} = req.params
+    const resQuery = await pool.query(`SELECT * FROM fpropsellsperAgent($1)`,[userid])
+    res.status(200).json({ data: resQuery.rows });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `An error ocurred: ${error.message}` });
+  }
+}
