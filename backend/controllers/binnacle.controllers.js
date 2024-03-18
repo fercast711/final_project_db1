@@ -2,7 +2,7 @@ import pool from "../db.js";
 
 export const getBinnacle = async(req, res) => {
     try {
-        const resQuery = await pool.query(`SELECT * FROM bitacora`)
+        const resQuery = await pool.query(`SELECT * FROM vAllBinnacle`)
         res.status(200).json({data: resQuery.rows});
         } catch (error) {
             console.log(error)
