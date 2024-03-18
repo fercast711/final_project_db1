@@ -258,7 +258,7 @@ const AdminPage = () => {
       {salesXagent && <TableAdmin componentTh={thReport} title="Amount of sales per agent" componentTd={tdReport} isReport={true} />}
       {binnacle && <TableAdmin title="Binnacle" isReport={true} componentTd={tdBinnacle} componentTh={['Id', 'Action', 'User', 'Date', 'Time']} />}
       {vbuyerPurchases && <TableAdmin title="Amount of purchases per buyer" isReport={true} componentTd={tdReport} componentTh={thReport} />}
-      {citySales && <TableAdmin title="Amount of sales per location" isReport={true} componentTd={tdReport} componentTh={thReport} />}
+      {citySales && <TableAdmin title="Sales per location" isReport={true} componentTd={tdReport} componentTh={thReport} />}
       {sellerSales && <TableAdmin title="Amount of sales per seller" isReport={true} componentTd={tdReport} componentTh={thReport} />}
       {featureSales && <TableAdmin title="Sales per feature" isReport={true} componentTd={tdReport} componentTh={thReport} />}
       {property_priceSales && <TableAdmin title="Sales per price" isReport={true} componentTd={tdReport} componentTh={thReport} />}
