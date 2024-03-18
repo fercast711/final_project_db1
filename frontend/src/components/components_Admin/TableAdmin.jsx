@@ -33,7 +33,7 @@ const TableAdmin = ({ componentTh, title, componentTd, isReport, needYear }) => 
             case 'Amount of purchases per buyer':
                 dispatch(fetchGetBuyerPurchases())
                 break;
-            case 'Amount of sales per location':
+            case 'Sales per location':
                 dispatch(fetchGetCitySales())
                 break;
             case 'Amount of sales per seller':
